@@ -1,6 +1,1 @@
-[submodule "bspkrs.util.client"]
-	path = bspkrs.util.client
-	url = https://github.com/bspkrs/bspkrs.util.client.git
-[submodule "bspkrs.util"]
-	path = bspkrs.util
-	url = https://github.com/bspkrs/bspkrs.util.git
+
