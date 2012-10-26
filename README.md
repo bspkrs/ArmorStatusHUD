@@ -1,2 +1,3 @@
-TreeCapitator-FML
+ArmorStatusHUD
 =================
+ArmorStatusHUD ModLoader class
