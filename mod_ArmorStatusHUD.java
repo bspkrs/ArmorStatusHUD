@@ -62,8 +62,8 @@ public class mod_ArmorStatusHUD extends BaseMod
     private ScaledResolution scaledResolution;
     private List<ColorThreshold> colorList;
     
-	public mod_ArmorStatusHUD()
-	{
+    public mod_ArmorStatusHUD()
+    {
         ModLoader.setInGameHook(this, true, false);
         versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
         
@@ -89,8 +89,8 @@ public class mod_ArmorStatusHUD extends BaseMod
         
         Collections.sort(colorList);
                        
-		checkUpdate = allowUpdateCheck;
-	}
+        checkUpdate = allowUpdateCheck;
+    }
 
     @Override
     public String getName() 
@@ -98,22 +98,22 @@ public class mod_ArmorStatusHUD extends BaseMod
         return "ArmorStatusHUD";
     }
 
-	@Override
-	public String getVersion() 
-	{
-		return "v1.2(1.3.2)";
-	}
+    @Override
+    public String getVersion() 
+    {
+        return "v1.2(1.3.2)";
+    }
 
-	@Override
-	public void load() 
-	{
+    @Override
+    public void load() 
+    {
         versionChecker.checkVersionWithLogging();
-	}
-	
-	@Override
-	public boolean onTickInGame(float f, Minecraft mc)
-	{
-	    if((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) 
+    }
+    
+    @Override
+    public boolean onTickInGame(float f, Minecraft mc)
+    {
+        if((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) 
                 && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.pressed)
         {
             scaledResolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
@@ -127,9 +127,9 @@ public class mod_ArmorStatusHUD extends BaseMod
                     mc.thePlayer.addChatMessage(msg);
             checkUpdate = false;
         }
-		
-		return true;
-	}
+        
+        return true;
+    }
 
     private int getX(int width)
     {
@@ -155,92 +155,92 @@ public class mod_ArmorStatusHUD extends BaseMod
     
     public static boolean playerHasArmorEquipped(EntityPlayer player)
     {
-    	return player.inventory.armorItemInSlot(0) != null || player.inventory.armorItemInSlot(1) != null 
-    	        || player.inventory.armorItemInSlot(2) != null || player.inventory.armorItemInSlot(3) != null;
+        return player.inventory.armorItemInSlot(0) != null || player.inventory.armorItemInSlot(1) != null 
+                || player.inventory.armorItemInSlot(2) != null || player.inventory.armorItemInSlot(3) != null;
     }
     
     public static int countOfDisplayableItems(EntityPlayer player)
     {
-    	int i = 0;
-    	i += canDisplayItem(player.inventory.armorItemInSlot(0)) ? 1 : 0;
-    	i += canDisplayItem(player.inventory.armorItemInSlot(1)) ? 1 : 0;
-    	i += canDisplayItem(player.inventory.armorItemInSlot(2)) ? 1 : 0;
-    	i += canDisplayItem(player.inventory.armorItemInSlot(3)) ? 1 : 0;
-    	i += showEquippedItem && canDisplayItem(player.getCurrentEquippedItem()) ? 1 : 0;
-    	return i;
+        int i = 0;
+        i += canDisplayItem(player.inventory.armorItemInSlot(0)) ? 1 : 0;
+        i += canDisplayItem(player.inventory.armorItemInSlot(1)) ? 1 : 0;
+        i += canDisplayItem(player.inventory.armorItemInSlot(2)) ? 1 : 0;
+        i += canDisplayItem(player.inventory.armorItemInSlot(3)) ? 1 : 0;
+        i += showEquippedItem && canDisplayItem(player.getCurrentEquippedItem()) ? 1 : 0;
+        return i;
     }
     
     public static boolean canDisplayItem(ItemStack item)
     {
-    	return item != null;
+        return item != null;
     }
-	
-	private void displayArmorStatus(Minecraft mc)
+    
+    private void displayArmorStatus(Minecraft mc)
     {
 
         if (playerHasArmorEquipped(mc.thePlayer) || (showEquippedItem && canDisplayItem(mc.thePlayer.getCurrentEquippedItem())))
         {
-        	int yOffset = enableItemName ? 18 : 16;
+            int yOffset = enableItemName ? 18 : 16;
 
             int yBase = getY(countOfDisplayableItems(mc.thePlayer),yOffset);
             
             for(int i = 3; i >= -1; i--)
             {
-            	ItemStack item = null;
-            	if(i == -1 && showEquippedItem)
-            		item = mc.thePlayer.getCurrentEquippedItem();
-            	else if(i != -1)
-            		item = mc.thePlayer.inventory.armorInventory[i];
-            	else
-            		item = null;
+                ItemStack item = null;
+                if(i == -1 && showEquippedItem)
+                    item = mc.thePlayer.getCurrentEquippedItem();
+                else if(i != -1)
+                    item = mc.thePlayer.inventory.armorInventory[i];
+                else
+                    item = null;
 
-	            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            	
-            	if(canDisplayItem(item))
-            	{
-		            int xBase = 0;
-		            int damage;
-		            int maxDamage;
-		            String itemDamage = "";
-		            
-		            if(item.isItemStackDamageable())
-		            {
-    	            	maxDamage = item.getMaxDamage() + 1;
-    	            	damage = maxDamage - item.getItemDamage();
-    	            	if(damageDisplayType.equalsIgnoreCase("value"))
-    	            		itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage 
-    	            		        + (showMaxDamage ? "\247f/" + maxDamage : "");
-    	            	else if(damageDisplayType.equalsIgnoreCase("percent"))
-    	            		itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
-		            }
+                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                
+                if(canDisplayItem(item))
+                {
+                    int xBase = 0;
+                    int damage;
+                    int maxDamage;
+                    String itemDamage = "";
+                    
+                    if(item.isItemStackDamageable())
+                    {
+                        maxDamage = item.getMaxDamage() + 1;
+                        damage = maxDamage - item.getItemDamage();
+                        if(damageDisplayType.equalsIgnoreCase("value"))
+                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage 
+                                    + (showMaxDamage ? "\247f/" + maxDamage : "");
+                        else if(damageDisplayType.equalsIgnoreCase("percent"))
+                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
+                    }
 
-//	            	if(item.itemID == Item.bow.shiftedIndex)
-//	            	    itemDamage = "(" + HUDUtils.countInInventory(mc.thePlayer, Item.arrow.shiftedIndex) + ") " + itemDamage;
-	            	
-		            xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));
-		            
-		            String itemName = "";
-		            
-		            if(enableItemName)
-		            {
-		            	itemName = StringTranslate.getInstance().translateNamedKey(item.getItem().getItemName());
-		                xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
-		            }
-		            
-		            //GL11.glEnable(GL11.GL_SCISSOR_TEST);
-		            //GL11.glPushMatrix();
-		            //GL11.glDisable(GL11.GL_BLEND);
-		            GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
-		            RenderHelper.enableStandardItemLighting();
-		            RenderHelper.enableGUIStandardItemLighting();
-		            itemRenderer.zLevel = 200.0F;
-		            
-		            if(alignMode.toLowerCase().contains("right"))
-	                {
-	                    xBase = getX(0);
-    		            this.itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
-    		            if(showItemOverlay)
-    		                HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
+//                    if(item.itemID == Item.bow.shiftedIndex)
+//                        itemDamage = "(" + HUDUtils.countInInventory(mc.thePlayer, Item.arrow.shiftedIndex) + ") " + itemDamage;
+                    
+                    xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));
+                    
+                    String itemName = "";
+                    
+                    if(enableItemName)
+                    {
+                        itemName = StringTranslate.getInstance().translateNamedKey(item.getItem().getItemName());
+                        xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
+                    }
+                    
+                    //GL11.glEnable(GL11.GL_SCISSOR_TEST);
+                    //GL11.glPushMatrix();
+                    //GL11.glDisable(GL11.GL_BLEND);
+                    GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
+                    RenderHelper.enableStandardItemLighting();
+                    RenderHelper.enableGUIStandardItemLighting();
+                    itemRenderer.zLevel = 200.0F;
+                    
+                    if(alignMode.toLowerCase().contains("right"))
+                    {
+                        xBase = getX(0);
+                        this.itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
+                        if(showItemOverlay)
+                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
                         
                         RenderHelper.disableStandardItemLighting(); 
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
@@ -249,12 +249,12 @@ public class mod_ArmorStatusHUD extends BaseMod
                         //GL11.glDisable(GL11.GL_SCISSOR_TEST);
 
                         int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
-    		            mc.fontRenderer.drawStringWithShadow(itemName, xBase - 20 - stringWidth, yBase, 0xffffff);
-    		            stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
-    		            mc.fontRenderer.drawStringWithShadow(itemDamage, xBase - 20 - stringWidth, yBase + (enableItemName ? 9: 4), 0xffffff);
-	                }
-		            else
-		            {
+                        mc.fontRenderer.drawStringWithShadow(itemName, xBase - 20 - stringWidth, yBase, 0xffffff);
+                        stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
+                        mc.fontRenderer.drawStringWithShadow(itemDamage, xBase - 20 - stringWidth, yBase + (enableItemName ? 9: 4), 0xffffff);
+                    }
+                    else
+                    {
                         this.itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
                         if(showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
@@ -267,10 +267,10 @@ public class mod_ArmorStatusHUD extends BaseMod
                         
                         mc.fontRenderer.drawStringWithShadow(itemName, xBase + 20, yBase, 0xffffff);
                         mc.fontRenderer.drawStringWithShadow(itemDamage, xBase + 20, yBase + (enableItemName ? 9: 4), 0xffffff);
-		            }
-	            	
+                    }
+                    
                     yBase += yOffset;
-            	}
+                }
             }
         }
     }
