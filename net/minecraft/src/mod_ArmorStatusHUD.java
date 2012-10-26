@@ -54,7 +54,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     
     private boolean checkUpdate;
     private ModVersionChecker versionChecker;
-    private String versionURL = "https://dl.dropbox.com/u/20748481/Minecraft/1.3.1/armorStatusHUD.version";
+    private String versionURL = "https://dl.dropbox.com/u/20748481/Minecraft/1.4.2/armorStatusHUD.version";
     private String mcfTopic = "http://www.minecraftforum.net/topic/1114612-";
     
     private static RenderItem itemRenderer = new RenderItem();
@@ -101,7 +101,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion() 
     {
-        return "v1.2(1.3.2)";
+        return "v1.3(1.4.2)";
     }
 
     @Override
