@@ -63,10 +63,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     private List<ColorThreshold> colorList;
     
     public mod_ArmorStatusHUD()
-    {
-        ModLoader.setInGameHook(this, true, false);
-        versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
-        
+    {        
         colorList = new ArrayList<ColorThreshold>();
         try
         {
@@ -88,7 +85,8 @@ public class mod_ArmorStatusHUD extends BaseMod
         }
         
         Collections.sort(colorList);
-                       
+
+        versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
         checkUpdate = allowUpdateCheck;
     }
 
@@ -101,13 +99,14 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion() 
     {
-        return "v1.3(1.4.2)";
+        return "v1.4(1.4.2)";
     }
 
     @Override
     public void load() 
     {
         versionChecker.checkVersionWithLogging();
+        ModLoader.setInGameHook(this, true, false);
     }
     
     @Override
