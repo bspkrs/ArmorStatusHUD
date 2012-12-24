@@ -6,6 +6,13 @@ import java.util.List;
 import java.util.logging.Level;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.opengl.GL11;
 
@@ -48,9 +55,8 @@ public class mod_ArmorStatusHUD extends BaseMod
     @MLProp(info = "Set to true to show info when chat is open, false to disable info when chat is open\n\n**ONLY EDIT WHAT IS BELOW THIS**")
     public static boolean              showInChat           = false;
     
-    private boolean                    checkUpdate;
-    private final ModVersionChecker    versionChecker;
-    private final String               versionURL           = "https://dl.dropbox.com/u/20748481/Minecraft/1.4.5/armorStatusHUD.version";
+    private ModVersionChecker          versionChecker;
+    private final String               versionURL           = "https://dl.dropbox.com/u/20748481/Minecraft/1.4.6/armorStatusHUD.version";
     private final String               mcfTopic             = "http://www.minecraftforum.net/topic/1114612-";
     
     private static RenderItem          itemRenderer         = new RenderItem();
@@ -82,8 +88,8 @@ public class mod_ArmorStatusHUD extends BaseMod
         
         Collections.sort(colorList);
         
-        versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
-        checkUpdate = allowUpdateCheck;
+        if (allowUpdateCheck)
+            versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
     }
     
     @Override
@@ -95,13 +101,14 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.4(1.4.5)";
+        return "v1.4(1.4.6)";
     }
     
     @Override
     public void load()
     {
-        versionChecker.checkVersionWithLogging();
+        if (allowUpdateCheck)
+            versionChecker.checkVersionWithLogging();
         ModLoader.setInGameHook(this, true, false);
     }
     
@@ -114,12 +121,12 @@ public class mod_ArmorStatusHUD extends BaseMod
             displayArmorStatus(mc);
         }
         
-        if (checkUpdate)
+        if (allowUpdateCheck)
         {
             if (!versionChecker.isCurrentVersion())
                 for (String msg : versionChecker.getInGameMessage())
                     mc.thePlayer.addChatMessage(msg);
-            checkUpdate = false;
+            allowUpdateCheck = false;
         }
         
         return true;
