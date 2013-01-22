@@ -16,9 +16,9 @@ import net.minecraft.util.StringTranslate;
 
 import org.lwjgl.opengl.GL11;
 
+import bspkrs.client.util.ColorThreshold;
+import bspkrs.client.util.HUDUtils;
 import bspkrs.util.ModVersionChecker;
-import bspkrs.util.client.ColorThreshold;
-import bspkrs.util.client.HUDUtils;
 
 public class mod_ArmorStatusHUD extends BaseMod
 {
@@ -101,7 +101,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.4(1.4.6)";
+        return "v1.5(1.4.6)";
     }
     
     @Override
@@ -208,7 +208,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                         maxDamage = item.getMaxDamage() + 1;
                         damage = maxDamage - item.getItemDamage();
                         if (damageDisplayType.equalsIgnoreCase("value"))
-                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage + (showMaxDamage ? "\247f/" + maxDamage : "");
+                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage + (showMaxDamage ? "/" + maxDamage : "");
                         else if (damageDisplayType.equalsIgnoreCase("percent"))
                             itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
                     }
@@ -250,9 +250,9 @@ public class mod_ArmorStatusHUD extends BaseMod
                         // GL11.glDisable(GL11.GL_SCISSOR_TEST);
                         
                         int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
-                        mc.fontRenderer.drawStringWithShadow(itemName, xBase - 20 - stringWidth, yBase, 0xffffff);
+                        mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase - 20 - stringWidth, yBase, 0xffffff);
                         stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
-                        mc.fontRenderer.drawStringWithShadow(itemDamage, xBase - 20 - stringWidth, yBase + (enableItemName ? 9 : 4), 0xffffff);
+                        mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase - 20 - stringWidth, yBase + (enableItemName ? 9 : 4), 0xffffff);
                     }
                     else
                     {
@@ -266,8 +266,8 @@ public class mod_ArmorStatusHUD extends BaseMod
                         // GL11.glPopMatrix();
                         // GL11.glDisable(GL11.GL_SCISSOR_TEST);
                         
-                        mc.fontRenderer.drawStringWithShadow(itemName, xBase + 20, yBase, 0xffffff);
-                        mc.fontRenderer.drawStringWithShadow(itemDamage, xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
+                        mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase + 20, yBase, 0xffffff);
+                        mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
                     }
                     
                     yBase += yOffset;
