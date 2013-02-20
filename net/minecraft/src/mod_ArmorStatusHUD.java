@@ -24,8 +24,6 @@ public class mod_ArmorStatusHUD extends BaseMod
 {
     private static String              defaultColorList     = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
-    @MLProp(info = "Set to true to allow checking for mod updates, false to disable")
-    public static boolean              allowUpdateCheck     = true;
     @MLProp(info = "Valid alignment strings are topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright")
     public static String               alignMode            = "bottomleft";
     // @MLProp(info="Valid list mode strings are horizontal and vertical")
@@ -56,6 +54,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     public static boolean              showInChat           = false;
     
     private ModVersionChecker          versionChecker;
+    private boolean                    allowUpdateCheck;
     private final String               versionURL           = "https://dl.dropbox.com/u/20748481/Minecraft/1.4.6/armorStatusHUD.version";
     private final String               mcfTopic             = "http://www.minecraftforum.net/topic/1114612-";
     
@@ -88,6 +87,8 @@ public class mod_ArmorStatusHUD extends BaseMod
         
         Collections.sort(colorList);
         
+        allowUpdateCheck = mod_bspkrsCore.allowUpdateCheck;
+        
         if (allowUpdateCheck)
             versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
     }
@@ -101,7 +102,13 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.5(1.4.6)";
+        return "v1.6(1.4.6)";
+    }
+    
+    @Override
+    public String getPriorities()
+    {
+        return "after:mod_bspkrsCore";
     }
     
     @Override
