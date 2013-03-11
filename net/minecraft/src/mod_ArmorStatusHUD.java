@@ -231,7 +231,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     
                     if (enableItemName)
                     {
-                        itemName = StringTranslate.getInstance().translateNamedKey(item.getItem().getItemName());
+                        itemName = StringTranslate.getInstance().translateNamedKey(item.getItem().getUnlocalizedName());
                         xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
                     }
                     
