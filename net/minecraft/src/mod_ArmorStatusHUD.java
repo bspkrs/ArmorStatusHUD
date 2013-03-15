@@ -55,7 +55,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     
     private ModVersionChecker          versionChecker;
     private boolean                    allowUpdateCheck;
-    private final String               versionURL           = "https://dl.dropbox.com/u/20748481/Minecraft/1.4.6/armorStatusHUD.version";
+    private final String               versionURL           = "https://dl.dropbox.com/u/20748481/Minecraft/1.5.0/armorStatusHUD.version";
     private final String               mcfTopic             = "http://www.minecraftforum.net/topic/1114612-";
     
     private static RenderItem          itemRenderer         = new RenderItem();
@@ -102,13 +102,13 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.6(1.4.6)";
+        return "v1.6(1.5.0)";
     }
     
     @Override
     public String getPriorities()
     {
-        return "after:mod_bspkrsCore";
+        return "required-after:mod_bspkrsCore";
     }
     
     @Override
