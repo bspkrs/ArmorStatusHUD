@@ -18,39 +18,41 @@ import org.lwjgl.opengl.GL11;
 
 import bspkrs.client.util.ColorThreshold;
 import bspkrs.client.util.HUDUtils;
+import bspkrs.util.BSProp;
+import bspkrs.util.BSPropRegistry;
 import bspkrs.util.ModVersionChecker;
 
 public class mod_ArmorStatusHUD extends BaseMod
 {
-    private static String              defaultColorList     = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
+    private final static String        DEFAULT_COLOR_LIST   = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
-    @MLProp(info = "Valid alignment strings are topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright")
+    @BSProp(info = "Valid alignment strings are topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright")
     public static String               alignMode            = "bottomleft";
-    // @MLProp(info="Valid list mode strings are horizontal and vertical")
+    // @BSProp(info="Valid list mode strings are horizontal and vertical")
     // public static String listMode = "vertical";
-    @MLProp(info = "Set to true to show item names, false to disable")
+    @BSProp(info = "Set to true to show item names, false to disable")
     public static boolean              enableItemName       = false;
-    @MLProp(info = "Set to true to show the standard inventory item overlay (damage bar)")
+    @BSProp(info = "Set to true to show the standard inventory item overlay (damage bar)")
     public static boolean              showItemOverlay      = true;
-    @MLProp(info = "This is a list of percent damage thresholds and text color codes that will be used when item damage is <= the threshold. Format used: \",\" separates the threshold and the color code, \";\" separates each pair. Valid color values are 0-9, a-f (color values can be found here: http://www.minecraftwiki.net/wiki/File:Colors.png)")
-    public static String               damageColorList      = defaultColorList;
-    @MLProp(info = "Valid damageDisplayType strings are value, percent, or none")
+    @BSProp(info = "This is a list of percent damage thresholds and text color codes that will be used when item damage is <= the threshold. Format used: \",\" separates the threshold and the color code, \";\" separates each pair. Valid color values are 0-9, a-f (color values can be found here: http://www.minecraftwiki.net/wiki/File:Colors.png)")
+    public static String               damageColorList      = DEFAULT_COLOR_LIST;
+    @BSProp(info = "Valid damageDisplayType strings are value, percent, or none")
     public static String               damageDisplayType    = "value";
-    @MLProp(info = "Set to true to show the max damage when damageDisplayType=value")
+    @BSProp(info = "Set to true to show the max damage when damageDisplayType=value")
     public static boolean              showMaxDamage        = false;
-    @MLProp(info = "Set to true to show info for your currently equipped item, false to disable")
+    @BSProp(info = "Set to true to show info for your currently equipped item, false to disable")
     public static boolean              showEquippedItem     = true;
-    @MLProp(info = "Horizontal offset from the edge of the screen (when using right alignments the x offset is relative to the right edge of the screen)")
+    @BSProp(info = "Horizontal offset from the edge of the screen (when using right alignments the x offset is relative to the right edge of the screen)")
     public static int                  xOffset              = 2;
-    @MLProp(info = "Vertical offset from the edge of the screen (when using bottom alignments the y offset is relative to the bottom edge of the screen)")
+    @BSProp(info = "Vertical offset from the edge of the screen (when using bottom alignments the y offset is relative to the bottom edge of the screen)")
     public static int                  yOffset              = 2;
-    @MLProp(info = "Vertical offset used only for the bottomcenter alignment to avoid the vanilla HUD")
+    @BSProp(info = "Vertical offset used only for the bottomcenter alignment to avoid the vanilla HUD")
     public static int                  yOffsetBottomCenter  = 41;
-    @MLProp(info = "Set to true if you want the xOffset value to be applied when using a center alignment")
+    @BSProp(info = "Set to true if you want the xOffset value to be applied when using a center alignment")
     public static boolean              applyXOffsetToCenter = false;
-    @MLProp(info = "Set to true if you want the yOffset value to be applied when using a middle alignment")
+    @BSProp(info = "Set to true if you want the yOffset value to be applied when using a middle alignment")
     public static boolean              applyYOffsetToMiddle = false;
-    @MLProp(info = "Set to true to show info when chat is open, false to disable info when chat is open\n\n**ONLY EDIT WHAT IS BELOW THIS**")
+    @BSProp(info = "Set to true to show info when chat is open, false to disable info when chat is open\n\n**ONLY EDIT WHAT IS BELOW THIS**")
     public static boolean              showInChat           = false;
     
     private ModVersionChecker          versionChecker;
@@ -65,6 +67,8 @@ public class mod_ArmorStatusHUD extends BaseMod
     
     public mod_ArmorStatusHUD()
     {
+        BSPropRegistry.registerPropHandler(this.getClass());
+        
         colorList = new ArrayList<ColorThreshold>();
         try
         {
@@ -77,8 +81,8 @@ public class mod_ArmorStatusHUD extends BaseMod
         catch (Throwable e)
         {
             ModLoader.getLogger().log(Level.WARNING, "Error encountered parsing damageColorList: " + damageColorList);
-            ModLoader.getLogger().log(Level.WARNING, "Reverting to defaultColorList: " + defaultColorList);
-            for (String s : defaultColorList.split(";"))
+            ModLoader.getLogger().log(Level.WARNING, "Reverting to defaultColorList: " + DEFAULT_COLOR_LIST);
+            for (String s : DEFAULT_COLOR_LIST.split(";"))
             {
                 String[] ct = s.split(",");
                 colorList.add(new ColorThreshold(Integer.valueOf(ct[0]), ct[1]));
@@ -86,11 +90,6 @@ public class mod_ArmorStatusHUD extends BaseMod
         }
         
         Collections.sort(colorList);
-        
-        allowUpdateCheck = mod_bspkrsCore.allowUpdateCheck;
-        
-        if (allowUpdateCheck)
-            versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
     }
     
     @Override
@@ -102,7 +101,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.6(1.5.1)";
+        return "v1.7(1.5.1)";
     }
     
     @Override
@@ -114,8 +113,14 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public void load()
     {
+        allowUpdateCheck = mod_bspkrsCore.allowUpdateCheck;
+        
         if (allowUpdateCheck)
+        {
+            versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
             versionChecker.checkVersionWithLogging();
+        }
+        
         ModLoader.setInGameHook(this, true, false);
     }
     
