@@ -117,7 +117,7 @@ public class mod_ArmorStatusHUD extends BaseMod
         
         if (allowUpdateCheck)
         {
-            versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic, ModLoader.getLogger());
+            versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic);
             versionChecker.checkVersionWithLogging();
         }
         
