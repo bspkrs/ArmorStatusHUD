@@ -68,28 +68,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     public mod_ArmorStatusHUD()
     {
         BSPropRegistry.registerPropHandler(this.getClass());
-        
         colorList = new ArrayList<ColorThreshold>();
-        try
-        {
-            for (String s : damageColorList.split(";"))
-            {
-                String[] ct = s.split(",");
-                colorList.add(new ColorThreshold(Integer.valueOf(ct[0].trim()), ct[1]));
-            }
-        }
-        catch (Throwable e)
-        {
-            ModLoader.getLogger().log(Level.WARNING, "Error encountered parsing damageColorList: " + damageColorList);
-            ModLoader.getLogger().log(Level.WARNING, "Reverting to defaultColorList: " + DEFAULT_COLOR_LIST);
-            for (String s : DEFAULT_COLOR_LIST.split(";"))
-            {
-                String[] ct = s.split(",");
-                colorList.add(new ColorThreshold(Integer.valueOf(ct[0]), ct[1]));
-            }
-        }
-        
-        Collections.sort(colorList);
     }
     
     @Override
@@ -120,6 +99,27 @@ public class mod_ArmorStatusHUD extends BaseMod
             versionChecker = new ModVersionChecker(getName(), getVersion(), versionURL, mcfTopic);
             versionChecker.checkVersionWithLogging();
         }
+        
+        try
+        {
+            for (String s : damageColorList.split(";"))
+            {
+                String[] ct = s.split(",");
+                colorList.add(new ColorThreshold(Integer.valueOf(ct[0].trim()), ct[1]));
+            }
+        }
+        catch (Throwable e)
+        {
+            ModLoader.getLogger().log(Level.WARNING, "Error encountered parsing damageColorList: " + damageColorList);
+            ModLoader.getLogger().log(Level.WARNING, "Reverting to defaultColorList: " + DEFAULT_COLOR_LIST);
+            for (String s : DEFAULT_COLOR_LIST.split(";"))
+            {
+                String[] ct = s.split(",");
+                colorList.add(new ColorThreshold(Integer.valueOf(ct[0]), ct[1]));
+            }
+        }
+        
+        Collections.sort(colorList);
         
         ModLoader.setInGameHook(this, true, false);
     }
@@ -251,7 +251,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     if (alignMode.toLowerCase().contains("right"))
                     {
                         xBase = getX(0);
-                        this.itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
+                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
                         
@@ -261,6 +261,8 @@ public class mod_ArmorStatusHUD extends BaseMod
                         // GL11.glPopMatrix();
                         // GL11.glDisable(GL11.GL_SCISSOR_TEST);
                         
+                        GL11.glBindTexture(3553, mc.renderEngine.getTexture("/font/default.png"));
+                        
                         int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase - 20 - stringWidth, yBase, 0xffffff);
                         stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
@@ -268,7 +270,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     }
                     else
                     {
-                        this.itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
+                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
                         
@@ -277,6 +279,8 @@ public class mod_ArmorStatusHUD extends BaseMod
                         
                         // GL11.glPopMatrix();
                         // GL11.glDisable(GL11.GL_SCISSOR_TEST);
+                        
+                        GL11.glBindTexture(3553, mc.renderEngine.getTexture("/font/default.png"));
                         
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase + 20, yBase, 0xffffff);
                         mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
