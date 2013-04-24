@@ -129,8 +129,12 @@ public class mod_ArmorStatusHUD extends BaseMod
     {
         if ((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.pressed)
         {
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            mc.renderEngine.resetBoundTexture();
             scaledResolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
             displayArmorStatus(mc);
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+            mc.renderEngine.resetBoundTexture();
         }
         
         if (allowUpdateCheck)
@@ -139,6 +143,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                 for (String msg : versionChecker.getInGameMessage())
                     mc.thePlayer.addChatMessage(msg);
             allowUpdateCheck = false;
+            GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         }
         
         return true;
@@ -261,8 +266,6 @@ public class mod_ArmorStatusHUD extends BaseMod
                         // GL11.glPopMatrix();
                         // GL11.glDisable(GL11.GL_SCISSOR_TEST);
                         
-                        GL11.glBindTexture(3553, mc.renderEngine.getTexture("/font/default.png"));
-                        
                         int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase - 20 - stringWidth, yBase, 0xffffff);
                         stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
@@ -279,8 +282,6 @@ public class mod_ArmorStatusHUD extends BaseMod
                         
                         // GL11.glPopMatrix();
                         // GL11.glDisable(GL11.GL_SCISSOR_TEST);
-                        
-                        GL11.glBindTexture(3553, mc.renderEngine.getTexture("/font/default.png"));
                         
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase + 20, yBase, 0xffffff);
                         mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
