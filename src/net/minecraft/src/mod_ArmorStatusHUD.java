@@ -20,6 +20,7 @@ import bspkrs.client.util.ColorThreshold;
 import bspkrs.client.util.HUDUtils;
 import bspkrs.util.BSProp;
 import bspkrs.util.BSPropRegistry;
+import bspkrs.util.Const;
 import bspkrs.util.ModVersionChecker;
 
 public class mod_ArmorStatusHUD extends BaseMod
@@ -57,7 +58,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     
     private ModVersionChecker          versionChecker;
     private boolean                    allowUpdateCheck;
-    private final String               versionURL           = "http://bspk.rs/Minecraft/1.5.1/armorStatusHUD.version";
+    private final String               versionURL           = "http://bspk.rs/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
     private final String               mcfTopic             = "http://www.minecraftforum.net/topic/1114612-";
     
     private static RenderItem          itemRenderer         = new RenderItem();
@@ -80,7 +81,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.7(1.5.1)";
+        return "v1.7(" + Const.MCVERSION + ")";
     }
     
     @Override
