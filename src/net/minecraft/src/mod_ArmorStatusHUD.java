@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
@@ -81,7 +81,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.7(" + Const.MCVERSION + ")";
+        return "v1.8(" + Const.MCVERSION + ")";
     }
     
     @Override
@@ -131,11 +131,11 @@ public class mod_ArmorStatusHUD extends BaseMod
         if ((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.pressed)
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-            mc.renderEngine.resetBoundTexture();
+            //mc.renderEngine.resetBoundTexture();
             scaledResolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
             displayArmorStatus(mc);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-            mc.renderEngine.resetBoundTexture();
+            //mc.renderEngine.resetBoundTexture();
         }
         
         if (allowUpdateCheck)
@@ -242,7 +242,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     
                     if (enableItemName)
                     {
-                        itemName = StringTranslate.getInstance().translateNamedKey(item.getItem().getUnlocalizedName());
+                        itemName = StatCollector.translateToLocal(item.getItem().getUnlocalizedName());
                         xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
                     }
                     
@@ -257,9 +257,9 @@ public class mod_ArmorStatusHUD extends BaseMod
                     if (alignMode.toLowerCase().contains("right"))
                     {
                         xBase = getX(0);
-                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
+                        itemRenderer.func_110795_a(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
                         if (showItemOverlay)
-                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
+                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase - 18, yBase);
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
@@ -274,9 +274,9 @@ public class mod_ArmorStatusHUD extends BaseMod
                     }
                     else
                     {
-                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
+                        itemRenderer.func_110795_a(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
                         if (showItemOverlay)
-                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
+                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase, yBase);
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
