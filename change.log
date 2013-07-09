@@ -1,0 +1,37 @@
+v1.9 (09-Jul-2013)
+- update update
+v1.8 (05-Jul-2013)
+- 1.6.1 update
+v1.7 (24-Apr-2013)
+- addressed potential issue from mods that don't clean up their texture bindings
+- new condig handler
+- updated to 1.5.2 (03-May-2013)
+v1.6 (20-Feb-2013)
+- updated to support bspkrsCore
+- updated to 1.5 (15-Mar-2013)
+- updated to 1.5.1 (23-Mar-2013)
+v1.5 (24-Jan-2013)
+- added reset code to end of all drawn text
+v1.4 (01-Nov-2012)
+- fixed Forge/FML compatibility
+- updated for 1.4.5 (21-Nov-2012)
+- updated for 1.4.6 (23-Dec-2012)
+v1.3 (26-Oct-2012)
+- initial update to 1.4.2
+v1.2(1.2.5) (06-Oct-2012)
+- retrofitted v1.2 to 1.2.5
+v1.2 (04-Oct-2012)
+- damageWarningPercent option replaced with damageColorList
+- blocks and non-damageable items are now shown
+- block overlay will show total count of that block
+- bow overlay shows count of arrows
+- fixed damage values being off by 1
+v1.1 (13-Sep-2012)
+- added x and y offset options
+- more options to control how damage is displayed
+- fixed item rendering code (should work for mods now)
+- new option to show the standard inventory item overlay (damage bar)
+- made icons appear on the right when right-aligned
+- switched to shared version checking
+v1.0 (27-Aug-2012)
+- Initial release
