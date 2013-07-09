@@ -58,7 +58,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     
     private ModVersionChecker          versionChecker;
     private boolean                    allowUpdateCheck;
-    private final String               versionURL           = "http://bspk.rs/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
+    private final String               versionURL           = Const.VERSION_URL + "/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
     private final String               mcfTopic             = "http://www.minecraftforum.net/topic/1114612-";
     
     private static RenderItem          itemRenderer         = new RenderItem();
@@ -81,7 +81,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.8(" + Const.MCVERSION + ")";
+        return "v1.9(" + Const.MCVERSION + ")";
     }
     
     @Override
@@ -257,7 +257,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     if (alignMode.toLowerCase().contains("right"))
                     {
                         xBase = getX(0);
-                        itemRenderer.func_110795_a(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase);
+                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase, true);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase - 18, yBase);
                         
@@ -274,7 +274,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     }
                     else
                     {
-                        itemRenderer.func_110795_a(mc.fontRenderer, mc.renderEngine, item, xBase, yBase);
+                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase, true);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase, yBase);
                         
