@@ -81,7 +81,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.9(" + Const.MCVERSION + ")";
+        return "v1.10(" + Const.MCVERSION + ")";
     }
     
     @Override
@@ -257,7 +257,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     if (alignMode.toLowerCase().contains("right"))
                     {
                         xBase = getX(0);
-                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase - 18, yBase, true);
+                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.func_110434_K(), item, xBase - 18, yBase, true);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase - 18, yBase);
                         
@@ -274,7 +274,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     }
                     else
                     {
-                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, item, xBase, yBase, true);
+                        itemRenderer.renderItemIntoGUI(mc.fontRenderer, mc.func_110434_K(), item, xBase, yBase, true);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase, yBase);
                         
