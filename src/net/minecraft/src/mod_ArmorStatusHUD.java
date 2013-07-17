@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
@@ -81,7 +80,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.11(" + Const.MCVERSION + ")";
+        return "v1.12(" + Const.MCVERSION + ")";
     }
     
     @Override
@@ -231,24 +230,16 @@ public class mod_ArmorStatusHUD extends BaseMod
                             itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
                     }
                     
-                    // if(item.itemID == Item.bow.shiftedIndex)
-                    // itemDamage = "(" +
-                    // HUDUtils.countInInventory(mc.thePlayer,
-                    // Item.arrow.shiftedIndex) + ") " + itemDamage;
-                    
                     xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));
                     
                     String itemName = "";
                     
                     if (enableItemName)
                     {
-                        itemName = StatCollector.translateToLocal(item.getItem().getUnlocalizedName());
+                        itemName = item.getDisplayName();
                         xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
                     }
                     
-                    // GL11.glEnable(GL11.GL_SCISSOR_TEST);
-                    // GL11.glPushMatrix();
-                    // GL11.glDisable(GL11.GL_BLEND);
                     GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
                     RenderHelper.enableStandardItemLighting();
                     RenderHelper.enableGUIStandardItemLighting();
@@ -257,16 +248,13 @@ public class mod_ArmorStatusHUD extends BaseMod
                     if (alignMode.toLowerCase().contains("right"))
                     {
                         xBase = getX(0);
-                        // func_110434_K = getTextureManager
+                        // func_110434_K == getTextureManager
                         itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.func_110434_K(), item, xBase - 18, yBase);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase - 18, yBase);
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
-                        
-                        // GL11.glPopMatrix();
-                        // GL11.glDisable(GL11.GL_SCISSOR_TEST);
                         
                         int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase - 20 - stringWidth, yBase, 0xffffff);
@@ -281,9 +269,6 @@ public class mod_ArmorStatusHUD extends BaseMod
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
-                        
-                        // GL11.glPopMatrix();
-                        // GL11.glDisable(GL11.GL_SCISSOR_TEST);
                         
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase + 20, yBase, 0xffffff);
                         mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
