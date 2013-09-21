@@ -249,7 +249,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     {
                         xBase = getX(0);
                         // func_110434_K == getTextureManager
-                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.func_110434_K(), item, xBase - 18, yBase);
+                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), item, xBase - 18, yBase);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase - 18, yBase);
                         
@@ -263,7 +263,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     }
                     else
                     {
-                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.func_110434_K(), item, xBase, yBase);
+                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), item, xBase, yBase);
                         if (showItemOverlay)
                             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase, yBase);
                         
