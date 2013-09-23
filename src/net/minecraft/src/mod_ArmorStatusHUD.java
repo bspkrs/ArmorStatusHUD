@@ -11,6 +11,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -20,6 +21,7 @@ import bspkrs.client.util.HUDUtils;
 import bspkrs.util.BSProp;
 import bspkrs.util.BSPropRegistry;
 import bspkrs.util.Const;
+import bspkrs.util.ForgeUtils;
 import bspkrs.util.ModVersionChecker;
 
 public class mod_ArmorStatusHUD extends BaseMod
@@ -64,6 +66,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     protected float                    zLevel               = 0.0F;
     private ScaledResolution           scaledResolution;
     private final List<ColorThreshold> colorList;
+    private boolean                    isForgeEnv           = false;
     
     public mod_ArmorStatusHUD()
     {
@@ -80,7 +83,7 @@ public class mod_ArmorStatusHUD extends BaseMod
     @Override
     public String getVersion()
     {
-        return "v1.12(" + Const.MCVERSION + ")";
+        return "v1.13(" + Const.MCVERSION + ")";
     }
     
     @Override
@@ -122,6 +125,8 @@ public class mod_ArmorStatusHUD extends BaseMod
         Collections.sort(colorList);
         
         ModLoader.setInGameHook(this, true, false);
+        
+        isForgeEnv = ForgeUtils.isForgeEnv();
     }
     
     @Override
@@ -203,32 +208,46 @@ public class mod_ArmorStatusHUD extends BaseMod
             
             for (int i = 3; i >= -1; i--)
             {
-                ItemStack item = null;
+                ItemStack itemStack = null;
                 if (i == -1 && showEquippedItem)
-                    item = mc.thePlayer.getCurrentEquippedItem();
+                    itemStack = mc.thePlayer.getCurrentEquippedItem();
                 else if (i != -1)
-                    item = mc.thePlayer.inventory.armorInventory[i];
+                    itemStack = mc.thePlayer.inventory.armorInventory[i];
                 else
-                    item = null;
+                    itemStack = null;
                 
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 
-                if (canDisplayItem(item))
+                if (canDisplayItem(itemStack))
                 {
+                    Item item = itemStack.getItem();
                     int xBase = 0;
-                    int damage;
-                    int maxDamage;
+                    int damage = 1;
+                    int maxDamage = 1;
                     String itemDamage = "";
                     
-                    if (item.isItemStackDamageable())
+                    if (isForgeEnv)
                     {
-                        maxDamage = item.getMaxDamage() + 1;
-                        damage = maxDamage - item.getItemDamage();
+                        if (item.isDamageable())
+                        {
+                            maxDamage = item.getMaxDamage(itemStack) + 1;
+                            damage = maxDamage - item.getDamage(itemStack);
+                        }
+                    }
+                    else
+                    {
+                        if (itemStack.isItemStackDamageable())
+                        {
+                            maxDamage = itemStack.getMaxDamage() + 1;
+                            damage = maxDamage - itemStack.getItemDamage();
+                        }
+                    }
+                    
+                    if (itemStack.isItemStackDamageable())
                         if (damageDisplayType.equalsIgnoreCase("value"))
                             itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage + (showMaxDamage ? "/" + maxDamage : "");
                         else if (damageDisplayType.equalsIgnoreCase("percent"))
                             itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
-                    }
                     
                     xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));
                     
@@ -236,7 +255,7 @@ public class mod_ArmorStatusHUD extends BaseMod
                     
                     if (enableItemName)
                     {
-                        itemName = item.getDisplayName();
+                        itemName = itemStack.getDisplayName();
                         xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
                     }
                     
@@ -249,9 +268,9 @@ public class mod_ArmorStatusHUD extends BaseMod
                     {
                         xBase = getX(0);
                         // func_110434_K == getTextureManager
-                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), item, xBase - 18, yBase);
+                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, xBase - 18, yBase);
                         if (showItemOverlay)
-                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase - 18, yBase);
+                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, xBase - 18, yBase);
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
@@ -263,9 +282,9 @@ public class mod_ArmorStatusHUD extends BaseMod
                     }
                     else
                     {
-                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), item, xBase, yBase);
+                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, xBase, yBase);
                         if (showItemOverlay)
-                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, item, xBase, yBase);
+                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, xBase, yBase);
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
