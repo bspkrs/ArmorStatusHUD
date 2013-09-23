@@ -1,5 +1,5 @@
 v1.13 (23-Sep-2013)
-- use Forge method for getting item damage when Forge is installed
+- use getItemDamageForDisplay()
 v1.12 (17-Jul-2013)
 - fixed item display name
 - 1.6.4 update (20-Sep-2013)
