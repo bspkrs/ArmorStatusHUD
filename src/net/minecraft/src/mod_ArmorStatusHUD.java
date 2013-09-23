@@ -226,28 +226,16 @@ public class mod_ArmorStatusHUD extends BaseMod
                     int maxDamage = 1;
                     String itemDamage = "";
                     
-                    if (isForgeEnv)
-                    {
-                        if (item.isDamageable())
-                        {
-                            maxDamage = item.getMaxDamage(itemStack) + 1;
-                            damage = maxDamage - item.getDamage(itemStack);
-                        }
-                    }
-                    else
-                    {
-                        if (itemStack.isItemStackDamageable())
-                        {
-                            maxDamage = itemStack.getMaxDamage() + 1;
-                            damage = maxDamage - itemStack.getItemDamage();
-                        }
-                    }
-                    
                     if (itemStack.isItemStackDamageable())
+                    {
+                        maxDamage = itemStack.getMaxDamage() + 1;
+                        damage = maxDamage - itemStack.getItemDamage();
+                        
                         if (damageDisplayType.equalsIgnoreCase("value"))
                             itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage + (showMaxDamage ? "/" + maxDamage : "");
                         else if (damageDisplayType.equalsIgnoreCase("percent"))
                             itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
+                    }
                     
                     xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));
                     
