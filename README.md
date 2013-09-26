@@ -24,7 +24,7 @@ This repo contains source files for ModLoader (dependant on bspkrsCore).
 2. In the ArmorStatusHUD repo folder, make a copy of build.properties_example and name it build.properties.
 3. Edit the values in build.properties to contain valid paths on your system for each property. Details can be found in build.properties_example.
 4. From a console window run "ant" from the ArmorStatusHUD repo folder. The build will create its output in the bin folder.
-5. Install the resulting mod archive by copying it to the mods folder on the client.
+5. Install the resulting mod archive by copying it to the mods folder on the client. (Don't forget to build bspkrsCore as well!)
 
 * * *
 
