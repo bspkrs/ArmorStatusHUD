@@ -20,7 +20,7 @@ import cpw.mods.fml.relauncher.Side;
 @Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore", useMetadata = true)
 public class ArmorStatusHUDMod
 {
-    public static ModVersionChecker versionChecker;
+    public ModVersionChecker        versionChecker;
     private String                  versionURL = Const.VERSION_URL + "/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
     private String                  mcfTopic   = "http://www.minecraftforum.net/topic/1114612-";
     

@@ -52,9 +52,9 @@ public class ASHGameTicker implements ITickHandler
         
         if (allowUpdateCheck && mc != null && mc.thePlayer != null)
         {
-            if (ArmorStatusHUDMod.versionChecker != null)
-                if (!ArmorStatusHUDMod.versionChecker.isCurrentVersion())
-                    for (String msg : ArmorStatusHUDMod.versionChecker.getInGameMessage())
+            if (ArmorStatusHUDMod.instance.versionChecker != null)
+                if (!ArmorStatusHUDMod.instance.versionChecker.isCurrentVersion())
+                    for (String msg : ArmorStatusHUDMod.instance.versionChecker.getInGameMessage())
                         mc.thePlayer.addChatMessage(msg);
             
             return false;
