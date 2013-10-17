@@ -1,3 +1,5 @@
+v1.14 (17-Oct-2013)
+- ported existing code to Forge
 v1.13 (23-Sep-2013)
 - use getItemDamageForDisplay()
 v1.12 (17-Jul-2013)
