@@ -102,6 +102,7 @@
         <zip destfile="${release.home}/${release.zip}">
             <fileset dir="${mcp.bin}" includes="bspkrs/armorstatushud/**/*.class"/>
             <fileset dir="${dev.resources}" includes="LICENSE"/>
+            <fileset dir="${mcp.home}/.." includes="forgeversion.properties"/>
             <mappedresources>
                 <concat>
                     <fileset dir="${dev.resources}" includes="mcmod.template"/>
