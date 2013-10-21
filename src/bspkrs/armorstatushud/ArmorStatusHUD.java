@@ -24,7 +24,7 @@ import bspkrs.util.Const;
 
 public class ArmorStatusHUD
 {
-    public static final String                VERSION_NUMBER       = "v1.14(" + Const.MCVERSION + ")";
+    public static final String                VERSION_NUMBER       = "v1.15(" + Const.MCVERSION + ")";
     
     private static final String               DEFAULT_COLOR_LIST   = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -35,6 +35,7 @@ public class ArmorStatusHUD
     public static boolean                     showItemOverlay      = true;
     public static String                      damageColorList      = DEFAULT_COLOR_LIST;
     public static String                      damageDisplayType    = "value";
+    public static String                      damageThresholdType  = "percent";
     public static boolean                     showMaxDamage        = false;
     public static boolean                     showEquippedItem     = true;
     public static int                         xOffset              = 2;
@@ -78,15 +79,17 @@ public class ArmorStatusHUD
                         "(color values can be found here: http://www.minecraftwiki.net/wiki/File:Colors.png)");
         damageDisplayType = config.getString("damageDisplayType", ctgyGen, damageDisplayType,
                 "Valid damageDisplayType strings are value, percent, or none");
+        damageThresholdType = config.getString("damageThresholdType", ctgyGen, damageThresholdType,
+                "The type of threshold to use when applying the damageColorList thresholds. Valid values are \"percent\" and \"value\".");
         showMaxDamage = config.getBoolean("showMaxDamage", ctgyGen, showMaxDamage,
                 "Set to true to show the max damage when damageDisplayType=value");
         showEquippedItem = config.getBoolean("showEquippedItem", ctgyGen, showEquippedItem,
                 "Set to true to show info for your currently equipped item, false to disable");
-        xOffset = config.getInt("xOffset", ctgyGen, xOffset, 0, Integer.MAX_VALUE,
+        xOffset = config.getInt("xOffset", ctgyGen, xOffset, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Horizontal offset from the edge of the screen (when using right alignments the x offset is relative to the right edge of the screen)");
-        yOffset = config.getInt("yOffset", ctgyGen, yOffset, 0, Integer.MAX_VALUE,
+        yOffset = config.getInt("yOffset", ctgyGen, yOffset, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Vertical offset from the edge of the screen (when using bottom alignments the y offset is relative to the bottom edge of the screen)");
-        yOffsetBottomCenter = config.getInt("yOffsetBottomCenter", ctgyGen, yOffsetBottomCenter, 0, Integer.MAX_VALUE,
+        yOffsetBottomCenter = config.getInt("yOffsetBottomCenter", ctgyGen, yOffsetBottomCenter, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 "Vertical offset used only for the bottomcenter alignment to avoid the vanilla HUD");
         applyXOffsetToCenter = config.getBoolean("applyXOffsetToCenter", ctgyGen, applyXOffsetToCenter,
                 "Set to true if you want the xOffset value to be applied when using a center alignment");
@@ -209,9 +212,12 @@ public class ArmorStatusHUD
                         damage = maxDamage - itemStack.getItemDamageForDisplay();
                         
                         if (damageDisplayType.equalsIgnoreCase("value"))
-                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + damage + (showMaxDamage ? "/" + maxDamage : "");
+                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList,
+                                    (damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) + damage +
+                                    (showMaxDamage ? "/" + maxDamage : "");
                         else if (damageDisplayType.equalsIgnoreCase("percent"))
-                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList, damage * 100 / maxDamage) + (damage * 100 / maxDamage) + "%";
+                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList,
+                                    (damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) + (damage * 100 / maxDamage) + "%";
                     }
                     
                     xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));

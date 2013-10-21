@@ -1,3 +1,6 @@
+v1.15 (21-Oct-2013)
+- fixed min values for offsets
+- added damageThresholdType option to let you use the damage value as a threshold instead of just damage percent
 v1.14 (17-Oct-2013)
 - ported existing code to Forge
 v1.13 (23-Sep-2013)
