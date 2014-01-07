@@ -1,6 +1,6 @@
 {
   "modListVersion": 2,
-  "modlist": [{
+  "modList": [{
     "modid": "ArmorStatusHUD",
     "name": "ArmorStatusHUD",
     "description": "Provides a HUD with your equipped armor/item stats.",
