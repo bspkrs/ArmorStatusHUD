@@ -1,0 +1,21 @@
+{
+  "modinfoversion": 2,
+  "modlist": [{
+    "modid": "ArmorStatusHUD",
+    "name": "ArmorStatusHUD",
+    "description": "Provides a HUD with your equipped armor/item stats.",
+    "version": "${mod_version}",
+    "mcversion": "${minecraft_version}",
+    "url": "http://www.minecraftforum.net/topic/1114612-/",
+    "updateUrl": "",
+    "authors": [ "bspkrs" ],
+    "credits": "Inspired by the armor/item tags available in IngameInfo by DaftPVF.",
+    "logoFile": "",
+    "screenshots": [  ],
+    "parent": "",
+    "requiredMods": [ "bspkrsCore" ],
+    "dependencies": [ "bspkrsCore" ],
+    "dependants": [  ],
+    "useDependencyInformation": "true"
+  }]
+}

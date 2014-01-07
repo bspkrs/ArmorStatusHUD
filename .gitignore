@@ -1,4 +1,8 @@
 /.settings/
 /bin/
 /release/
-/build.properties
+/build/
+/.gradle/
+/run/
+.project
+.classpath
