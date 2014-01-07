@@ -1,66 +1,39 @@
 package bspkrs.armorstatushud.fml;
 
-import java.util.EnumSet;
-
 import net.minecraft.client.Minecraft;
 import bspkrs.armorstatushud.ArmorStatusHUD;
-import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 
-public class ASHRenderTicker implements ITickHandler
+public class ASHRenderTicker
 {
-    private EnumSet<TickType> tickTypes = EnumSet.noneOf(TickType.class);
-    private Minecraft         mc;
+    private Minecraft      mcClient;
+    private static boolean isRegistered = false;
     
-    public ASHRenderTicker(EnumSet<TickType> tickTypes)
+    public ASHRenderTicker()
     {
-        this.tickTypes = tickTypes;
-        mc = Minecraft.getMinecraft();
+        mcClient = FMLClientHandler.instance().getClient();
+        isRegistered = true;
     }
     
-    @Override
-    public void tickStart(EnumSet<TickType> tickTypes, Object... tickData)
+    @SubscribeEvent
+    public void onTick(RenderTickEvent event)
     {
-        tick(tickTypes, true);
-    }
-    
-    @Override
-    public void tickEnd(EnumSet<TickType> tickTypes, Object... tickData)
-    {
-        tick(tickTypes, false);
-    }
-    
-    private void tick(EnumSet<TickType> tickTypes, boolean isStart)
-    {
-        for (TickType tickType : tickTypes)
-        {
-            if (!onTick(tickType, isStart))
-            {
-                this.tickTypes.remove(tickType);
-                this.tickTypes.removeAll(tickType.partnerTicks());
-            }
-        }
-    }
-    
-    public boolean onTick(TickType tick, boolean isStart)
-    {
-        if (isStart)
-        {
-            return true;
-        }
+        if (event.phase.equals(Phase.START))
+            return;
         
-        return ArmorStatusHUD.onTickInGame(mc);
+        if (!ArmorStatusHUD.onTickInGame(mcClient))
+        {
+            FMLCommonHandler.instance().bus().unregister(this);
+            isRegistered = false;
+        }
     }
     
-    @Override
-    public EnumSet<TickType> ticks()
+    public static boolean isRegistered()
     {
-        return tickTypes;
-    }
-    
-    @Override
-    public String getLabel()
-    {
-        return "ASHRenderTicker";
+        return isRegistered;
     }
 }

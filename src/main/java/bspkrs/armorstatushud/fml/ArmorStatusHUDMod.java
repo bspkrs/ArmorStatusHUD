@@ -1,21 +1,17 @@
 package bspkrs.armorstatushud.fml;
 
-import java.util.EnumSet;
-
 import bspkrs.armorstatushud.ArmorStatusHUD;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
 import bspkrs.util.Const;
 import bspkrs.util.ModVersionChecker;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.TickRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore", useMetadata = true)
 public class ArmorStatusHUDMod
@@ -46,7 +42,7 @@ public class ArmorStatusHUDMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        TickRegistry.registerTickHandler(new ASHGameTicker(EnumSet.of(TickType.CLIENT)), Side.CLIENT);
-        TickRegistry.registerTickHandler(new ASHRenderTicker(EnumSet.of(TickType.RENDER)), Side.CLIENT);
+        FMLCommonHandler.instance().bus().register(new ASHGameTicker());
+        FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
     }
 }

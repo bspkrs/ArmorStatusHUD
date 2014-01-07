@@ -12,19 +12,20 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
 import org.lwjgl.opengl.GL11;
 
 import bspkrs.client.util.ColorThreshold;
 import bspkrs.client.util.HUDUtils;
+import bspkrs.util.BSConfiguration;
 import bspkrs.util.BSLog;
 import bspkrs.util.CommonUtils;
-import bspkrs.util.Configuration;
 import bspkrs.util.Const;
 
 public class ArmorStatusHUD
 {
-    public static final String                VERSION_NUMBER       = "v1.15(" + Const.MCVERSION + ")";
+    public static final String                VERSION_NUMBER       = "v1.16(" + Const.MCVERSION + ")";
     
     private static final String               DEFAULT_COLOR_LIST   = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -49,7 +50,7 @@ public class ArmorStatusHUD
     protected static float                    zLevel               = -110.0F;
     private static ScaledResolution           scaledResolution;
     private static final List<ColorThreshold> colorList            = new ArrayList<ColorThreshold>();
-    private static Configuration              config;
+    private static BSConfiguration            config;
     
     public static void loadConfig(File file)
     {
@@ -61,7 +62,7 @@ public class ArmorStatusHUD
           //                file.delete();
         }
         
-        config = new Configuration(file);
+        config = new BSConfiguration(file);
         
         config.load();
         
@@ -124,7 +125,7 @@ public class ArmorStatusHUD
     
     public static boolean onTickInGame(Minecraft mc)
     {
-        if ((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.pressed)
+        if ((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) && !mc.gameSettings.showDebugInfo)
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             scaledResolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
