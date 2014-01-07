@@ -37,7 +37,7 @@ repositories {
 }
 
 dependencies {
-    compile name: 'bspkrsCore', version: "${config.bscore_version}(${config.minecraft_version})", type: 'jar'
+    compile name: 'bspkrsCore', version: "${config.bscore_version}(${config.minecraft_version})", ext: 'jar'
 }
 
 group = config.group_name
