@@ -1,3 +1,7 @@
+1.17 (20-Jan-2014)
+- fixed derpy text/textures (thanks Lunatrius!)
+1.16 (19-Jan-2014)
+- 1.7.2 update
 v1.15 (21-Oct-2013)
 - fixed min values for offsets
 - added damageThresholdType option to let you use the damage value as a threshold instead of just damage percent
