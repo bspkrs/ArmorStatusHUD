@@ -245,6 +245,7 @@ public class ArmorStatusHUD
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
+                        GL11.glDisable(GL11.GL_BLEND);
                         
                         int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase - 20 - stringWidth, yBase, 0xffffff);
@@ -259,6 +260,7 @@ public class ArmorStatusHUD
                         
                         RenderHelper.disableStandardItemLighting();
                         GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
+                        GL11.glDisable(GL11.GL_BLEND);
                         
                         mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase + 20, yBase, 0xffffff);
                         mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
