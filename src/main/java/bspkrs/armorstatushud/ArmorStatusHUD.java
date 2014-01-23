@@ -16,6 +16,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import org.lwjgl.opengl.GL11;
 
+import bspkrs.armorstatushud.fml.ArmorStatusHUDMod;
 import bspkrs.client.util.ColorThreshold;
 import bspkrs.client.util.HUDUtils;
 import bspkrs.util.BSConfiguration;
@@ -25,7 +26,7 @@ import bspkrs.util.Const;
 
 public class ArmorStatusHUD
 {
-    public static final String                VERSION_NUMBER       = "v1.17(" + Const.MCVERSION + ")";
+    public static final String                VERSION_NUMBER       = "v1.18(" + Const.MCVERSION + ")";
     
     private static final String               DEFAULT_COLOR_LIST   = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -125,7 +126,8 @@ public class ArmorStatusHUD
     
     public static boolean onTickInGame(Minecraft mc)
     {
-        if ((mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat)) && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.func_151470_d())
+        if (ArmorStatusHUDMod.instance.isEnabled() && (mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat))
+                && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.func_151470_d())
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             scaledResolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);

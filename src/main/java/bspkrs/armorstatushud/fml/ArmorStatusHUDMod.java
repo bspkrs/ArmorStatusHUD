@@ -20,6 +20,8 @@ public class ArmorStatusHUDMod
     private String                  versionURL = Const.VERSION_URL + "/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
     private String                  mcfTopic   = "http://www.minecraftforum.net/topic/1114612-";
     
+    private boolean                 isEnabled  = true;
+    
     @Metadata(value = "ArmorStatusHUD")
     public static ModMetadata       metadata;
     
@@ -44,5 +46,15 @@ public class ArmorStatusHUDMod
     {
         FMLCommonHandler.instance().bus().register(new ASHGameTicker());
         FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
+    }
+    
+    public void setEnabled(boolean bol)
+    {
+        isEnabled = bol;
+    }
+    
+    public boolean isEnabled()
+    {
+        return isEnabled;
     }
 }
