@@ -26,7 +26,7 @@ import bspkrs.util.Const;
 
 public class ArmorStatusHUD
 {
-    public static final String                VERSION_NUMBER       = "v1.18(" + Const.MCVERSION + ")";
+    public static final String                VERSION_NUMBER       = "1.18(" + Const.MCVERSION + ")";
     
     private static final String               DEFAULT_COLOR_LIST   = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
