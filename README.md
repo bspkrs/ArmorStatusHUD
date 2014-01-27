@@ -3,7 +3,7 @@ ArmorStatusHUD
 bspkrs' ArmorStatusHUD mod for Minecraft.  Displays details of your armor and currently held item.
 This repo contains source files for Forge (dependant on bspkrsCore).
 
-### Links of Interest
+## Links of Interest
  - [Official Minecraft Forum Thread](http://www.minecraftforum.net/topic/1114612-)
  - [Player Downloads](http://bspk.rs/MC/ArmorStatusHUD/index.html) - for Minecraft players to use
  - [Developer Downloads](http://bspk.rs/MC/ArmorStatusHUD/deobf/index.html) - for developers to use in an IDE such as Eclipse
