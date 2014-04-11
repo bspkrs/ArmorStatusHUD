@@ -8,54 +8,72 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
 
 import org.lwjgl.opengl.GL11;
 
 import bspkrs.armorstatushud.fml.ArmorStatusHUDMod;
 import bspkrs.client.util.ColorThreshold;
-import bspkrs.client.util.HUDUtils;
-import bspkrs.util.BSConfiguration;
 import bspkrs.util.BSLog;
 import bspkrs.util.CommonUtils;
 import bspkrs.util.Const;
+import bspkrs.util.config.Configuration;
 
 public class ArmorStatusHUD
 {
-    public static final String                VERSION_NUMBER       = "1.18(" + Const.MCVERSION + ")";
+    public static final String        VERSION_NUMBER              = "1.20(" + Const.MCVERSION + ")";
     
-    private static final String               DEFAULT_COLOR_LIST   = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
+    private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
-    public static String                      alignMode            = "bottomleft";
-    // @BSProp(info="Valid list mode strings are horizontal and vertical")
-    // public static String listMode = "vertical";
-    public static boolean                     enableItemName       = false;
-    public static boolean                     showItemOverlay      = true;
-    public static String                      damageColorList      = DEFAULT_COLOR_LIST;
-    public static String                      damageDisplayType    = "value";
-    public static String                      damageThresholdType  = "percent";
-    public static boolean                     showMaxDamage        = false;
-    public static boolean                     showEquippedItem     = true;
-    public static int                         xOffset              = 2;
-    public static int                         yOffset              = 2;
-    public static int                         yOffsetBottomCenter  = 41;
-    public static boolean                     applyXOffsetToCenter = false;
-    public static boolean                     applyYOffsetToMiddle = false;
-    public static boolean                     showInChat           = false;
+    private static String             alignModeDefault            = "bottomleft";
+    public static String              alignMode                   = alignModeDefault;
+    private static String             listModeDefault             = "horizontal";
+    public static String              listMode                    = listModeDefault;
+    private static boolean            enableItemNameDefault       = false;
+    public static boolean             enableItemName              = enableItemNameDefault;
+    private static boolean            showItemOverlayDefault      = true;
+    public static boolean             showItemOverlay             = showItemOverlayDefault;
+    private static String             damageColorListDefault      = DEFAULT_COLOR_LIST;
+    public static String              damageColorList             = damageColorListDefault;
+    private static String             damageDisplayTypeDefault    = "value";
+    public static String              damageDisplayType           = damageDisplayTypeDefault;
+    private static String             damageThresholdTypeDefault  = "percent";
+    public static String              damageThresholdType         = damageThresholdTypeDefault;
+    private static boolean            showDamageDefault           = true;
+    public static boolean             showDamage                  = showDamageDefault;
+    private static boolean            showMaxDamageDefault        = false;
+    public static boolean             showMaxDamage               = showMaxDamageDefault;
+    private static boolean            showEquippedItemDefault     = true;
+    public static boolean             showEquippedItem            = showEquippedItemDefault;
+    private static int                xOffsetDefault              = 2;
+    public static int                 xOffset                     = xOffsetDefault;
+    private static int                yOffsetDefault              = 2;
+    public static int                 yOffset                     = yOffsetDefault;
+    private static int                yOffsetBottomCenterDefault  = 41;
+    public static int                 yOffsetBottomCenter         = yOffsetBottomCenterDefault;
+    private static boolean            applyXOffsetToCenterDefault = false;
+    public static boolean             applyXOffsetToCenter        = applyXOffsetToCenterDefault;
+    private static boolean            applyYOffsetToMiddleDefault = false;
+    public static boolean             applyYOffsetToMiddle        = applyYOffsetToMiddleDefault;
+    private static boolean            showInChatDefault           = false;
+    public static boolean             showInChat                  = showInChatDefault;
     
-    private static RenderItem                 itemRenderer         = new RenderItem();
-    protected static float                    zLevel               = -110.0F;
-    private static ScaledResolution           scaledResolution;
-    private static final List<ColorThreshold> colorList            = new ArrayList<ColorThreshold>();
-    private static BSConfiguration            config;
+    static RenderItem                 itemRenderer                = new RenderItem();
+    static float                      zLevel                      = -110.0F;
+    private static ScaledResolution   scaledResolution;
+    static final List<ColorThreshold> colorList                   = new ArrayList<ColorThreshold>();
+    private static Configuration      config;
+    private static HUDElement[]       elements;
     
-    public static void loadConfig(File file)
+    public static Configuration getConfig()
     {
-        String ctgyGen = Configuration.CATEGORY_GENERAL;
+        return config;
+    }
+    
+    public static void initConfig(File file)
+    {
         
         if (!CommonUtils.isObfuscatedEnv())
         { // debug settings for deobfuscated execution
@@ -63,42 +81,51 @@ public class ArmorStatusHUD
           //                file.delete();
         }
         
-        config = new BSConfiguration(file);
+        config = new Configuration(file);
+        syncConfig();
+    }
+    
+    public static void syncConfig()
+    {
+        String ctgyGen = Configuration.CATEGORY_GENERAL;
         
         config.load();
         
-        alignMode = config.getString("alignMode", ctgyGen, alignMode,
-                "Valid alignment strings are topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright");
-        // @BSProp(info="Valid list mode strings are horizontal and vertical")
-        // public static String listMode = "vertical";
-        enableItemName = config.getBoolean("enableItemName", ctgyGen, enableItemName,
-                "Set to true to show item names, false to disable");
-        showItemOverlay = config.getBoolean("showItemOverlay", ctgyGen, showItemOverlay,
-                "Set to true to show the standard inventory item overlay (damage bar)");
-        damageColorList = config.getString("damageColorList", ctgyGen, damageColorList,
-                "This is a list of percent damage thresholds and text color codes that will be used when item damage is <= the threshold. " +
-                        "Format used: \",\" separates the threshold and the color code, \";\" separates each pair. Valid color values are 0-9, a-f " +
-                        "(color values can be found here: http://www.minecraftwiki.net/wiki/File:Colors.png)");
-        damageDisplayType = config.getString("damageDisplayType", ctgyGen, damageDisplayType,
-                "Valid damageDisplayType strings are value, percent, or none");
-        damageThresholdType = config.getString("damageThresholdType", ctgyGen, damageThresholdType,
-                "The type of threshold to use when applying the damageColorList thresholds. Valid values are \"percent\" and \"value\".");
-        showMaxDamage = config.getBoolean("showMaxDamage", ctgyGen, showMaxDamage,
-                "Set to true to show the max damage when damageDisplayType=value");
-        showEquippedItem = config.getBoolean("showEquippedItem", ctgyGen, showEquippedItem,
-                "Set to true to show info for your currently equipped item, false to disable");
-        xOffset = config.getInt("xOffset", ctgyGen, xOffset, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                "Horizontal offset from the edge of the screen (when using right alignments the x offset is relative to the right edge of the screen)");
-        yOffset = config.getInt("yOffset", ctgyGen, yOffset, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                "Vertical offset from the edge of the screen (when using bottom alignments the y offset is relative to the bottom edge of the screen)");
-        yOffsetBottomCenter = config.getInt("yOffsetBottomCenter", ctgyGen, yOffsetBottomCenter, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                "Vertical offset used only for the bottomcenter alignment to avoid the vanilla HUD");
-        applyXOffsetToCenter = config.getBoolean("applyXOffsetToCenter", ctgyGen, applyXOffsetToCenter,
-                "Set to true if you want the xOffset value to be applied when using a center alignment");
-        applyYOffsetToMiddle = config.getBoolean("applyYOffsetToMiddle", ctgyGen, applyYOffsetToMiddle,
-                "Set to true if you want the yOffset value to be applied when using a middle alignment");
-        showInChat = config.getBoolean("showInChat", ctgyGen, showInChat,
-                "Set to true to show info when chat is open, false to disable info when chat is open");
+        config.addCustomCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
+                "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
+        
+        alignMode = config.getString(ConfigElement.ALIGN_MODE.key(), ctgyGen, alignModeDefault, ConfigElement.ALIGN_MODE.desc(),
+                ConfigElement.ALIGN_MODE.validStrings(), ConfigElement.ALIGN_MODE.languageKey());
+        listMode = config.getString(ConfigElement.LIST_MODE.key(), ctgyGen, listModeDefault, ConfigElement.LIST_MODE.desc(),
+                ConfigElement.LIST_MODE.validStrings(), ConfigElement.LIST_MODE.languageKey());
+        enableItemName = config.getBoolean(ConfigElement.ENABLE_ITEM_NAME.key(), ctgyGen, enableItemNameDefault,
+                ConfigElement.ENABLE_ITEM_NAME.desc(), ConfigElement.ENABLE_ITEM_NAME.languageKey());
+        showItemOverlay = config.getBoolean(ConfigElement.SHOW_ITEM_OVERLAY.key(), ctgyGen, showItemOverlayDefault,
+                ConfigElement.SHOW_ITEM_OVERLAY.desc(), ConfigElement.SHOW_ITEM_OVERLAY.languageKey());
+        damageColorList = config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
+                ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey());
+        damageDisplayType = config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
+                ConfigElement.DAMAGE_DISPLAY_TYPE.desc(), ConfigElement.DAMAGE_DISPLAY_TYPE.validStrings(), ConfigElement.DAMAGE_DISPLAY_TYPE.languageKey());
+        damageThresholdType = config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
+                ConfigElement.DAMAGE_THRESHOLD_TYPE.desc(), ConfigElement.DAMAGE_THRESHOLD_TYPE.validStrings(), ConfigElement.DAMAGE_THRESHOLD_TYPE.languageKey());
+        showDamage = config.getBoolean(ConfigElement.SHOW_DAMAGE.key(), ctgyGen, showDamageDefault, ConfigElement.SHOW_DAMAGE.desc(),
+                ConfigElement.SHOW_DAMAGE.languageKey());
+        showMaxDamage = config.getBoolean(ConfigElement.SHOW_MAX_DAMAGE.key(), ctgyGen, showMaxDamageDefault,
+                ConfigElement.SHOW_MAX_DAMAGE.desc(), ConfigElement.SHOW_MAX_DAMAGE.languageKey());
+        showEquippedItem = config.getBoolean(ConfigElement.SHOW_EQUIPPED_ITEM.key(), ctgyGen, showEquippedItemDefault,
+                ConfigElement.SHOW_EQUIPPED_ITEM.desc(), ConfigElement.SHOW_EQUIPPED_ITEM.languageKey());
+        xOffset = config.getInt(ConfigElement.X_OFFSET.key(), ctgyGen, xOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                ConfigElement.X_OFFSET.desc(), ConfigElement.X_OFFSET.languageKey());
+        yOffset = config.getInt(ConfigElement.Y_OFFSET.key(), ctgyGen, yOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                ConfigElement.Y_OFFSET.desc(), ConfigElement.Y_OFFSET.languageKey());
+        yOffsetBottomCenter = config.getInt(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key(), ctgyGen, yOffsetBottomCenterDefault,
+                Integer.MIN_VALUE, Integer.MAX_VALUE, ConfigElement.Y_OFFSET_BOTTOM_CENTER.desc(), ConfigElement.Y_OFFSET_BOTTOM_CENTER.languageKey());
+        applyXOffsetToCenter = config.getBoolean(ConfigElement.APPLY_X_OFFSET_TO_CENTER.key(), ctgyGen, applyXOffsetToCenterDefault,
+                ConfigElement.APPLY_X_OFFSET_TO_CENTER.desc(), ConfigElement.APPLY_X_OFFSET_TO_CENTER.languageKey());
+        applyYOffsetToMiddle = config.getBoolean(ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.key(), ctgyGen, applyYOffsetToMiddleDefault,
+                ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.desc(), ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.languageKey());
+        showInChat = config.getBoolean(ConfigElement.SHOW_IN_CHAT.key(), ctgyGen, showInChatDefault, ConfigElement.SHOW_IN_CHAT.desc(),
+                ConfigElement.SHOW_IN_CHAT.languageKey());
         
         config.save();
         
@@ -107,7 +134,7 @@ public class ArmorStatusHUD
             for (String s : damageColorList.split(";"))
             {
                 String[] ct = s.split(",");
-                colorList.add(new ColorThreshold(Integer.valueOf(ct[0].trim()), ct[1]));
+                colorList.add(new ColorThreshold(Integer.valueOf(ct[0].trim()), ct[1].trim()));
             }
         }
         catch (Throwable e)
@@ -117,7 +144,7 @@ public class ArmorStatusHUD
             for (String s : DEFAULT_COLOR_LIST.split(";"))
             {
                 String[] ct = s.split(",");
-                colorList.add(new ColorThreshold(Integer.valueOf(ct[0]), ct[1]));
+                colorList.add(new ColorThreshold(Integer.valueOf(ct[0].trim()), ct[1].trim()));
             }
         }
         
@@ -181,94 +208,62 @@ public class ArmorStatusHUD
         return item != null;
     }
     
+    private static void getHUDElements(Minecraft mc)
+    {
+        elements = new HUDElement[countOfDisplayableItems(mc.thePlayer)];
+        int index = 0;
+        
+        for (int i = 3; i >= -1; i--)
+        {
+            ItemStack itemStack = null;
+            if (i == -1 && showEquippedItem)
+                itemStack = mc.thePlayer.getCurrentEquippedItem();
+            else if (i != -1)
+                itemStack = mc.thePlayer.inventory.armorInventory[i];
+            
+            if (itemStack != null)
+                elements[index++] = new HUDElement(itemStack, 16, 16, 2);
+        }
+    }
+    
+    private static int getElementsWidth()
+    {
+        int r = 0;
+        for (HUDElement he : elements)
+            r += he.width();
+        
+        return r;
+    }
+    
     private static void displayArmorStatus(Minecraft mc)
     {
+        getHUDElements(mc);
         
-        if (playerHasArmorEquipped(mc.thePlayer) || (showEquippedItem && canDisplayItem(mc.thePlayer.getCurrentEquippedItem())))
+        if (elements.length > 0)
         {
             int yOffset = enableItemName ? 18 : 16;
             
-            int yBase = getY(countOfDisplayableItems(mc.thePlayer), yOffset);
-            
-            for (int i = 3; i >= -1; i--)
+            if (listMode.equalsIgnoreCase("vertical"))
             {
-                ItemStack itemStack = null;
-                if (i == -1 && showEquippedItem)
-                    itemStack = mc.thePlayer.getCurrentEquippedItem();
-                else if (i != -1)
-                    itemStack = mc.thePlayer.inventory.armorInventory[i];
-                else
-                    itemStack = null;
+                int yBase = getY(elements.length, yOffset);
                 
-                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-                
-                if (canDisplayItem(itemStack))
+                for (HUDElement e : elements)
                 {
-                    int xBase = 0;
-                    int damage = 1;
-                    int maxDamage = 1;
-                    String itemDamage = "";
-                    
-                    if (itemStack.isItemStackDamageable())
-                    {
-                        maxDamage = itemStack.getMaxDamage() + 1;
-                        damage = maxDamage - itemStack.getItemDamageForDisplay();
-                        
-                        if (damageDisplayType.equalsIgnoreCase("value"))
-                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList,
-                                    (damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) + damage +
-                                    (showMaxDamage ? "/" + maxDamage : "");
-                        else if (damageDisplayType.equalsIgnoreCase("percent"))
-                            itemDamage = "\247" + ColorThreshold.getColorCode(colorList,
-                                    (damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) + (damage * 100 / maxDamage) + "%";
-                    }
-                    
-                    xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage)));
-                    
-                    String itemName = "";
-                    
-                    if (enableItemName)
-                    {
-                        itemName = itemStack.getDisplayName();
-                        xBase = getX(18 + 4 + mc.fontRenderer.getStringWidth(itemName));
-                    }
-                    
-                    GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
-                    RenderHelper.enableStandardItemLighting();
-                    RenderHelper.enableGUIStandardItemLighting();
-                    itemRenderer.zLevel = 200.0F;
-                    
-                    if (alignMode.toLowerCase().contains("right"))
-                    {
-                        xBase = getX(0);
-                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, xBase - 18, yBase);
-                        if (showItemOverlay)
-                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, xBase - 18, yBase);
-                        
-                        RenderHelper.disableStandardItemLighting();
-                        GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
-                        GL11.glDisable(GL11.GL_BLEND);
-                        
-                        int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
-                        mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase - 20 - stringWidth, yBase, 0xffffff);
-                        stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
-                        mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase - 20 - stringWidth, yBase + (enableItemName ? 9 : 4), 0xffffff);
-                    }
-                    else
-                    {
-                        itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, xBase, yBase);
-                        if (showItemOverlay)
-                            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, xBase, yBase);
-                        
-                        RenderHelper.disableStandardItemLighting();
-                        GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
-                        GL11.glDisable(GL11.GL_BLEND);
-                        
-                        mc.fontRenderer.drawStringWithShadow(itemName + "\247r", xBase + 20, yBase, 0xffffff);
-                        mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", xBase + 20, yBase + (enableItemName ? 9 : 4), 0xffffff);
-                    }
-                    
+                    e.renderToHud((alignMode.toLowerCase().contains("right") ? getX(0) : getX(e.width())), yBase);
                     yBase += yOffset;
+                }
+            }
+            else if (listMode.equalsIgnoreCase("horizontal"))
+            {
+                int totalWidth = getElementsWidth();
+                int yBase = getY(1, yOffset);
+                int xBase = getX(totalWidth);
+                int prevX = 0;
+                
+                for (HUDElement e : elements)
+                {
+                    e.renderToHud(xBase + prevX + (alignMode.toLowerCase().contains("right") ? e.width() : 0), yBase);
+                    prevX += e.width();
                 }
             }
         }

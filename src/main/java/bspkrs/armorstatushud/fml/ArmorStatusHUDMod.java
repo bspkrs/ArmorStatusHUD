@@ -1,6 +1,8 @@
 package bspkrs.armorstatushud.fml;
 
+import net.minecraftforge.client.ClientCommandHandler;
 import bspkrs.armorstatushud.ArmorStatusHUD;
+import bspkrs.armorstatushud.CommandArmorStatus;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
 import bspkrs.util.Const;
 import bspkrs.util.ModVersionChecker;
@@ -11,9 +13,11 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLModDisabledEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore", useMetadata = true)
+@Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore",
+        useMetadata = true)
 public class ArmorStatusHUDMod
 {
     public ModVersionChecker        versionChecker;
@@ -32,7 +36,7 @@ public class ArmorStatusHUDMod
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = event.getModMetadata();
-        ArmorStatusHUD.loadConfig(event.getSuggestedConfigurationFile());
+        ArmorStatusHUD.initConfig(event.getSuggestedConfigurationFile());
         
         if (bspkrsCoreMod.instance.allowUpdateCheck)
         {
@@ -46,6 +50,17 @@ public class ArmorStatusHUDMod
     {
         FMLCommonHandler.instance().bus().register(new ASHGameTicker());
         FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
+        
+        if (event.getSide().isClient())
+        {
+            ClientCommandHandler.instance.registerCommand(new CommandArmorStatus());
+        }
+    }
+    
+    @EventHandler
+    public void disableMod(FMLModDisabledEvent event)
+    {
+        isEnabled = !isEnabled;
     }
     
     public void setEnabled(boolean bol)

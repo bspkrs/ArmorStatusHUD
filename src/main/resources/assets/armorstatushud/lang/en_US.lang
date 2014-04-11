@@ -1,0 +1,17 @@
+commands.armorstatus.usage=armorstatus config
+bspkrs.ash.configgui.alignMode=HUD Position
+bspkrs.ash.configgui.listMode=HUD Layout
+bspkrs.ash.configgui.enableItemName=Show Item Name
+bspkrs.ash.configgui.showItemOverlay=Show Item Damage Overlay Bar
+bspkrs.ash.configgui.damageColorList=Damage Color Threshold List
+bspkrs.ash.configgui.damageDisplayType=Damage Value Type
+bspkrs.ash.configgui.damageThresholdType=Damage Color Threshold Type
+bspkrs.ash.configgui.showDamage=Show Damage
+bspkrs.ash.configgui.showMaxDamage=Show Max Damage
+bspkrs.ash.configgui.showEquippedItem=Show Currently Held Item
+bspkrs.ash.configgui.xOffset=Horizontal HUD Offset
+bspkrs.ash.configgui.yOffset=Vertical HUD Offset
+bspkrs.ash.configgui.yOffsetBottomCenter=Bottom Center Vertical HUD Offset
+bspkrs.ash.configgui.applyXOffsetToCenter=Apply Horizontal Offset to Center
+bspkrs.ash.configgui.applyYOffsetToMiddle=Apply Vertical Offset to Middle
+bspkrs.ash.configgui.showInChat=Show While Chat is Open
