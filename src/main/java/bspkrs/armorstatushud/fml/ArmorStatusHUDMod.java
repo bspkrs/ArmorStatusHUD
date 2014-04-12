@@ -17,7 +17,7 @@ import cpw.mods.fml.common.event.FMLModDisabledEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore",
-        useMetadata = true)
+        useMetadata = true, guiFactory = "bspkrs.armorstatushud.fml.gui.ModGuiFactoryHandler")
 public class ArmorStatusHUDMod
 {
     public ModVersionChecker        versionChecker;

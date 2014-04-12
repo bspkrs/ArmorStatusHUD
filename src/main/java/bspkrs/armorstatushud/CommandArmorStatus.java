@@ -2,11 +2,8 @@ package bspkrs.armorstatushud;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import bspkrs.armorstatushud.fml.gui.GuiASHConfig;
 import bspkrs.fml.util.DelayedGuiDisplayTicker;
-import bspkrs.util.config.ConfigCategory;
-import bspkrs.util.config.ConfigProperty;
-import bspkrs.util.config.Configuration;
-import bspkrs.util.config.gui.IConfigProperty;
 
 public class CommandArmorStatus extends CommandBase
 {
@@ -37,15 +34,9 @@ public class CommandArmorStatus extends CommandBase
     @Override
     public void processCommand(ICommandSender var1, String[] var2)
     {
-        ConfigCategory cc = ArmorStatusHUD.getConfig().getCategory(Configuration.CATEGORY_GENERAL);
-        IConfigProperty[] props = new IConfigProperty[ConfigElement.values().length];
-        for (int i = 0; i < ConfigElement.values().length; i++)
-            props[i] = new ConfigProperty(cc.get(ConfigElement.values()[i].key()));
-        
         try
         {
-            new DelayedGuiDisplayTicker(10, new bspkrs.util.config.gui.GuiConfig(null, props, Configuration.class.getDeclaredMethod("save"), ArmorStatusHUD.getConfig(),
-                    ArmorStatusHUD.class.getDeclaredMethod("syncConfig"), null));
+            new DelayedGuiDisplayTicker(10, new GuiASHConfig(null));
         }
         catch (Throwable e)
         {
