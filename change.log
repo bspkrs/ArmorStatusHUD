@@ -1,3 +1,6 @@
+1.20 (13-Apr-2014)
+- added in-game config gui stuff (command /armorstatus config)
+- added new config option to display the HUD horizontally as well as vertically
 1.18 (24-Jan-2014)
 - added isEnabled control
 1.17 (20-Jan-2014)
