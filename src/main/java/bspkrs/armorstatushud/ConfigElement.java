@@ -3,7 +3,7 @@ package bspkrs.armorstatushud;
 import static bspkrs.util.config.Property.Type.BOOLEAN;
 import static bspkrs.util.config.Property.Type.INTEGER;
 import static bspkrs.util.config.Property.Type.STRING;
-import bspkrs.util.config.Property.Type;
+import bspkrs.util.config.Property;
 
 public enum ConfigElement
 {
@@ -45,13 +45,13 @@ public enum ConfigElement
     SHOW_IN_CHAT("showInChat", "bspkrs.ash.configgui.showInChat",
             "Set to true to show info when chat is open, false to disable info when chat is open", BOOLEAN);
     
-    private String   key;
-    private String   langKey;
-    private String   desc;
-    private Type     propertyType;
-    private String[] validStrings;
+    private String        key;
+    private String        langKey;
+    private String        desc;
+    private Property.Type propertyType;
+    private String[]      validStrings;
     
-    private ConfigElement(String key, String langKey, String desc, Type propertyType, String[] validStrings)
+    private ConfigElement(String key, String langKey, String desc, Property.Type propertyType, String[] validStrings)
     {
         this.key = key;
         this.langKey = langKey;
@@ -60,7 +60,7 @@ public enum ConfigElement
         this.validStrings = validStrings;
     }
     
-    private ConfigElement(String key, String langKey, String desc, Type propertyType)
+    private ConfigElement(String key, String langKey, String desc, Property.Type propertyType)
     {
         this(key, langKey, desc, propertyType, new String[0]);
     }
@@ -80,7 +80,7 @@ public enum ConfigElement
         return desc;
     }
     
-    public Type propertyType()
+    public Property.Type propertyType()
     {
         return propertyType;
     }
