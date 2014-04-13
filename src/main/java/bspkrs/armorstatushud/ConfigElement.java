@@ -7,6 +7,7 @@ import bspkrs.util.config.Property.Type;
 
 public enum ConfigElement
 {
+    ENABLED("enabled", "bspkrs.ash.configgui.enabled", "Enables or disables the Armor Status HUD display.", BOOLEAN),
     ALIGN_MODE("alignMode", "bspkrs.ash.configgui.alignMode",
             "Sets the position of the HUD on the screen. Valid alignment strings are topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright",
             STRING, new String[] { "topleft", "topcenter", "topright", "middleleft", "middlecenter", "middleright", "bottomleft", "bottomcenter", "bottomright" }),

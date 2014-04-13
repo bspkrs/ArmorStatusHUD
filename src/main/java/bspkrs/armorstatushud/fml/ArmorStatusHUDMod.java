@@ -13,7 +13,6 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLModDisabledEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore",
@@ -23,8 +22,6 @@ public class ArmorStatusHUDMod
     public ModVersionChecker        versionChecker;
     private String                  versionURL = Const.VERSION_URL + "/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
     private String                  mcfTopic   = "http://www.minecraftforum.net/topic/1114612-";
-    
-    private boolean                 isEnabled  = true;
     
     @Metadata(value = "ArmorStatusHUD")
     public static ModMetadata       metadata;
@@ -55,21 +52,5 @@ public class ArmorStatusHUDMod
         {
             ClientCommandHandler.instance.registerCommand(new CommandArmorStatus());
         }
-    }
-    
-    @EventHandler
-    public void disableMod(FMLModDisabledEvent event)
-    {
-        isEnabled = !isEnabled;
-    }
-    
-    public void setEnabled(boolean bol)
-    {
-        isEnabled = bol;
-    }
-    
-    public boolean isEnabled()
-    {
-        return isEnabled;
     }
 }

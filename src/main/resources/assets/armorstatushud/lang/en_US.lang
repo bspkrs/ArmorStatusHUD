@@ -1,4 +1,5 @@
 commands.armorstatus.usage=armorstatus config
+bspkrs.ash.configgui.enabled=Enabled
 bspkrs.ash.configgui.alignMode=HUD Position
 bspkrs.ash.configgui.listMode=HUD Layout
 bspkrs.ash.configgui.enableItemName=Show Item Name

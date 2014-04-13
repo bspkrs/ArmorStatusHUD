@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 
-import bspkrs.armorstatushud.fml.ArmorStatusHUDMod;
 import bspkrs.client.util.ColorThreshold;
 import bspkrs.util.BSLog;
 import bspkrs.util.CommonUtils;
@@ -27,6 +26,8 @@ public class ArmorStatusHUD
     
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
+    private final static boolean      enabledDefault              = true;
+    public static boolean             enabled                     = enabledDefault;
     private static String             alignModeDefault            = "bottomleft";
     public static String              alignMode                   = alignModeDefault;
     private static String             listModeDefault             = "horizontal";
@@ -94,6 +95,8 @@ public class ArmorStatusHUD
         config.addCustomCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
         
+        enabled = config.getBoolean(ConfigElement.ENABLED.key(), ctgyGen, enabledDefault, ConfigElement.ENABLED.desc(),
+                ConfigElement.ENABLED.languageKey());
         alignMode = config.getString(ConfigElement.ALIGN_MODE.key(), ctgyGen, alignModeDefault, ConfigElement.ALIGN_MODE.desc(),
                 ConfigElement.ALIGN_MODE.validStrings(), ConfigElement.ALIGN_MODE.languageKey());
         listMode = config.getString(ConfigElement.LIST_MODE.key(), ctgyGen, listModeDefault, ConfigElement.LIST_MODE.desc(),
@@ -153,7 +156,7 @@ public class ArmorStatusHUD
     
     public static boolean onTickInGame(Minecraft mc)
     {
-        if (ArmorStatusHUDMod.instance.isEnabled() && (mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat))
+        if (enabled && (mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat))
                 && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.isPressed())
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

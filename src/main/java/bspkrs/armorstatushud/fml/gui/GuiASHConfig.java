@@ -29,7 +29,10 @@ public class GuiASHConfig extends GuiConfig
         ConfigCategory cc = ArmorStatusHUD.getConfig().getCategory(Configuration.CATEGORY_GENERAL);
         IConfigProperty[] props = new IConfigProperty[ConfigElement.values().length];
         for (int i = 0; i < ConfigElement.values().length; i++)
-            props[i] = new ConfigProperty(cc.get(ConfigElement.values()[i].key()));
+        {
+            ConfigElement ce = ConfigElement.values()[i];
+            props[i] = new ConfigProperty(cc.get(ce.key()), ce.propertyType());
+        }
         
         return props;
     }
