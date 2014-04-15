@@ -1,3 +1,6 @@
+1.21 (15-Apr-2014)
+- changed showItemOverlay option to showDamageOverlay
+- added showItemCount option
 1.20 (13-Apr-2014)
 - added in-game config gui stuff (command /armorstatus config)
 - added new config option to display the HUD horizontally as well as vertically

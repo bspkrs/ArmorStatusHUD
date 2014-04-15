@@ -15,8 +15,10 @@ public enum ConfigElement
             "Sets the direction to display status items. Valid list mode strings are horizontal and vertical", STRING, new String[] { "vertical", "horizontal" }),
     ENABLE_ITEM_NAME("enableItemName", "bspkrs.ash.configgui.enableItemName",
             "Set to true to show item names, false to disable", BOOLEAN),
-    SHOW_ITEM_OVERLAY("showItemOverlay", "bspkrs.ash.configgui.showItemOverlay",
+    SHOW_DAMAGE_OVERLAY("showDamageOverlay", "bspkrs.ash.configgui.showDamageOverlay",
             "Set to true to show the standard inventory item overlay (damage bar)", BOOLEAN),
+    SHOW_ITEM_COUNT("showItemCount", "bspkrs.ash.configgui.showItemCount",
+            "Set to true to show the item count overlay", BOOLEAN),
     DAMAGE_COLOR_LIST("damageColorList", "bspkrs.ash.configgui.damageColorList",
             "This is a list of percent damage thresholds and text color codes that will be used when item damage is <= the threshold. " +
                     "Format used: \",\" separates the threshold and the color code, \";\" separates each pair. Valid color values are 0-9, a-f " +

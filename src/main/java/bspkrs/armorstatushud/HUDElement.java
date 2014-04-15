@@ -93,8 +93,7 @@ public class HUDElement
         if (ArmorStatusHUD.alignMode.toLowerCase().contains("right"))
         {
             ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, x - (iconW + padW), y);
-            if (ArmorStatusHUD.showItemOverlay)
-                HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x - (iconW + padW), y);
+            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x - (iconW + padW), y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
             
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
@@ -109,8 +108,7 @@ public class HUDElement
         else
         {
             ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, x, y);
-            if (ArmorStatusHUD.showItemOverlay)
-                HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x, y);
+            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x, y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
             
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);

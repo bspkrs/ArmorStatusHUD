@@ -22,7 +22,7 @@ import bspkrs.util.config.Configuration;
 
 public class ArmorStatusHUD
 {
-    public static final String        VERSION_NUMBER              = "1.20(" + Const.MCVERSION + ")";
+    public static final String        VERSION_NUMBER              = "1.21(" + Const.MCVERSION + ")";
     
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -34,8 +34,10 @@ public class ArmorStatusHUD
     public static String              listMode                    = listModeDefault;
     private static boolean            enableItemNameDefault       = false;
     public static boolean             enableItemName              = enableItemNameDefault;
-    private static boolean            showItemOverlayDefault      = true;
-    public static boolean             showItemOverlay             = showItemOverlayDefault;
+    private static boolean            showDamageOverlayDefault    = true;
+    public static boolean             showDamageOverlay           = showDamageOverlayDefault;
+    private static boolean            showItemCountDefault        = true;
+    public static boolean             showItemCount               = showItemCountDefault;
     private static String             damageColorListDefault      = DEFAULT_COLOR_LIST;
     public static String              damageColorList             = damageColorListDefault;
     private static String             damageDisplayTypeDefault    = "value";
@@ -103,8 +105,10 @@ public class ArmorStatusHUD
                 ConfigElement.LIST_MODE.validStrings(), ConfigElement.LIST_MODE.languageKey());
         enableItemName = config.getBoolean(ConfigElement.ENABLE_ITEM_NAME.key(), ctgyGen, enableItemNameDefault,
                 ConfigElement.ENABLE_ITEM_NAME.desc(), ConfigElement.ENABLE_ITEM_NAME.languageKey());
-        showItemOverlay = config.getBoolean(ConfigElement.SHOW_ITEM_OVERLAY.key(), ctgyGen, showItemOverlayDefault,
-                ConfigElement.SHOW_ITEM_OVERLAY.desc(), ConfigElement.SHOW_ITEM_OVERLAY.languageKey());
+        showDamageOverlay = config.getBoolean(ConfigElement.SHOW_DAMAGE_OVERLAY.key(), ctgyGen, showDamageOverlayDefault,
+                ConfigElement.SHOW_DAMAGE_OVERLAY.desc(), ConfigElement.SHOW_DAMAGE_OVERLAY.languageKey());
+        showItemCount = config.getBoolean(ConfigElement.SHOW_ITEM_COUNT.key(), ctgyGen, showItemCountDefault,
+                ConfigElement.SHOW_ITEM_COUNT.desc(), ConfigElement.SHOW_ITEM_COUNT.languageKey());
         damageColorList = config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
                 ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey());
         damageDisplayType = config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
