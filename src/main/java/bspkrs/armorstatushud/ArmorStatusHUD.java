@@ -22,7 +22,7 @@ import bspkrs.util.config.Configuration;
 
 public class ArmorStatusHUD
 {
-    public static final String        VERSION_NUMBER              = "1.21(" + Const.MCVERSION + ")";
+    public static final String        VERSION_NUMBER              = "1.22(" + Const.MCVERSION + ")";
     
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -44,8 +44,10 @@ public class ArmorStatusHUD
     public static String              damageDisplayType           = damageDisplayTypeDefault;
     private static String             damageThresholdTypeDefault  = "percent";
     public static String              damageThresholdType         = damageThresholdTypeDefault;
-    private static boolean            showDamageDefault           = true;
-    public static boolean             showDamage                  = showDamageDefault;
+    private static boolean            showItemDamageDefault       = true;
+    public static boolean             showItemDamage              = showItemDamageDefault;
+    private static boolean            showArmorDamageDefault      = true;
+    public static boolean             showArmorDamage             = showArmorDamageDefault;
     private static boolean            showMaxDamageDefault        = false;
     public static boolean             showMaxDamage               = showMaxDamageDefault;
     private static boolean            showEquippedItemDefault     = true;
@@ -115,8 +117,10 @@ public class ArmorStatusHUD
                 ConfigElement.DAMAGE_DISPLAY_TYPE.desc(), ConfigElement.DAMAGE_DISPLAY_TYPE.validStrings(), ConfigElement.DAMAGE_DISPLAY_TYPE.languageKey());
         damageThresholdType = config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
                 ConfigElement.DAMAGE_THRESHOLD_TYPE.desc(), ConfigElement.DAMAGE_THRESHOLD_TYPE.validStrings(), ConfigElement.DAMAGE_THRESHOLD_TYPE.languageKey());
-        showDamage = config.getBoolean(ConfigElement.SHOW_DAMAGE.key(), ctgyGen, showDamageDefault, ConfigElement.SHOW_DAMAGE.desc(),
-                ConfigElement.SHOW_DAMAGE.languageKey());
+        showArmorDamage = config.getBoolean(ConfigElement.SHOW_ARMOR_DAMAGE.key(), ctgyGen, showArmorDamageDefault, ConfigElement.SHOW_ARMOR_DAMAGE.desc(),
+                ConfigElement.SHOW_ARMOR_DAMAGE.languageKey());
+        showItemDamage = config.getBoolean(ConfigElement.SHOW_ITEM_DAMAGE.key(), ctgyGen, showItemDamageDefault, ConfigElement.SHOW_ITEM_DAMAGE.desc(),
+                ConfigElement.SHOW_ITEM_DAMAGE.languageKey());
         showMaxDamage = config.getBoolean(ConfigElement.SHOW_MAX_DAMAGE.key(), ctgyGen, showMaxDamageDefault,
                 ConfigElement.SHOW_MAX_DAMAGE.desc(), ConfigElement.SHOW_MAX_DAMAGE.languageKey());
         showEquippedItem = config.getBoolean(ConfigElement.SHOW_EQUIPPED_ITEM.key(), ctgyGen, showEquippedItemDefault,
@@ -229,7 +233,7 @@ public class ArmorStatusHUD
                 itemStack = mc.thePlayer.inventory.armorInventory[i];
             
             if (itemStack != null)
-                elements[index++] = new HUDElement(itemStack, 16, 16, 2);
+                elements[index++] = new HUDElement(itemStack, 16, 16, 2, i > -1);
         }
     }
     

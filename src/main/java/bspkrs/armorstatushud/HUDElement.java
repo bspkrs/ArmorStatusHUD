@@ -21,14 +21,16 @@ public class HUDElement
     private int            itemNameW;
     private String         itemDamage = "";
     private int            itemDamageW;
+    private final boolean  isArmor;
     private Minecraft      mc         = Minecraft.getMinecraft();
     
-    public HUDElement(ItemStack itemStack, int iconW, int iconH, int padW)
+    public HUDElement(ItemStack itemStack, int iconW, int iconH, int padW, boolean isArmor)
     {
         this.itemStack = itemStack;
         this.iconW = iconW;
         this.iconH = iconH;
         this.padW = padW;
+        this.isArmor = isArmor;
         
         initSize();
     }
@@ -53,7 +55,7 @@ public class HUDElement
             int damage = 1;
             int maxDamage = 1;
             
-            if (ArmorStatusHUD.showDamage && itemStack.isItemStackDamageable())
+            if (((isArmor && ArmorStatusHUD.showArmorDamage) || (!isArmor && ArmorStatusHUD.showItemDamage)) && itemStack.isItemStackDamageable())
             {
                 maxDamage = itemStack.getMaxDamage() + 1;
                 damage = maxDamage - itemStack.getItemDamageForDisplay();
@@ -99,9 +101,7 @@ public class HUDElement
             GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
             GL11.glDisable(GL11.GL_BLEND);
             
-            int stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
             mc.fontRenderer.drawStringWithShadow(itemName + "\247r", x - (padW + iconW + padW) - itemNameW, y, 0xffffff);
-            stringWidth = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
             mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", x - (padW + iconW + padW) - itemDamageW,
                     y + (ArmorStatusHUD.enableItemName ? elementH / 2 : elementH / 4), 0xffffff);
         }

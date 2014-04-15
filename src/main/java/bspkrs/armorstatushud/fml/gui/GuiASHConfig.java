@@ -8,6 +8,7 @@ import bspkrs.armorstatushud.ConfigElement;
 import bspkrs.util.config.ConfigCategory;
 import bspkrs.util.config.ConfigProperty;
 import bspkrs.util.config.Configuration;
+import bspkrs.util.config.Property;
 import bspkrs.util.config.gui.GuiConfig;
 import bspkrs.util.config.gui.IConfigProperty;
 
@@ -31,7 +32,9 @@ public class GuiASHConfig extends GuiConfig
         for (int i = 0; i < ConfigElement.values().length; i++)
         {
             ConfigElement ce = ConfigElement.values()[i];
-            props[i] = new ConfigProperty(cc.get(ce.key()), ce.propertyType());
+            Property prop = cc.get(ce.key());
+            if (prop != null)
+                props[i] = new ConfigProperty(prop, ce.propertyType());
         }
         
         return props;
