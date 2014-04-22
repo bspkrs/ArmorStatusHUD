@@ -87,7 +87,7 @@ public class HUDElement
     public void renderToHud(int x, int y)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
+        GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
         RenderHelper.enableStandardItemLighting();
         RenderHelper.enableGUIStandardItemLighting();
         ArmorStatusHUD.itemRenderer.zLevel = 200.0F;
@@ -98,7 +98,7 @@ public class HUDElement
             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x - (iconW + padW), y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
             
             RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
+            GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
             GL11.glDisable(GL11.GL_BLEND);
             
             mc.fontRenderer.drawStringWithShadow(itemName + "\247r", x - (padW + iconW + padW) - itemNameW, y, 0xffffff);
@@ -111,12 +111,13 @@ public class HUDElement
             HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x, y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
             
             RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT *//* GL_RESCALE_NORMAL_EXT */);
+            GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
             GL11.glDisable(GL11.GL_BLEND);
             
             mc.fontRenderer.drawStringWithShadow(itemName + "\247r", x + iconW + padW, y, 0xffffff);
             mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", x + iconW + padW,
                     y + (ArmorStatusHUD.enableItemName ? elementH / 2 : elementH / 4), 0xffffff);
         }
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
 }

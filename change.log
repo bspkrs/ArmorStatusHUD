@@ -1,68 +1,70 @@
-1.23 (18-Apr-2014)
+1.24 - 22-Apr-2014
+- fixed flickering when playerlist is shown
+1.23 - 18-Apr-2014
 - added localized tooltips
-1.22 (15-Apr-2014)
+1.22 - 15-Apr-2014
 - split showDamage option into showItemDamage and showArmorDamage
-1.21 (15-Apr-2014)
+1.21 - 15-Apr-2014
 - changed showItemOverlay option to showDamageOverlay
 - added showItemCount option
-1.20 (13-Apr-2014)
-- added in-game config gui stuff (command /armorstatus config)
+1.20 - 13-Apr-2014
+- added in-game config gui stuff - command /armorstatus config
 - added new config option to display the HUD horizontally as well as vertically
-1.18 (24-Jan-2014)
+1.18 - 24-Jan-2014
 - added isEnabled control
-1.17 (20-Jan-2014)
-- fixed derpy text/textures (thanks Lunatrius!)
-1.16 (19-Jan-2014)
+1.17 - 20-Jan-2014
+- fixed derpy text/textures - thanks Lunatrius!
+1.16 - 19-Jan-2014
 - 1.7.2 update
-v1.15 (21-Oct-2013)
+1.15 - 21-Oct-2013
 - fixed min values for offsets
 - added damageThresholdType option to let you use the damage value as a threshold instead of just damage percent
-v1.14 (17-Oct-2013)
+1.14 - 17-Oct-2013
 - ported existing code to Forge
-v1.13 (23-Sep-2013)
-- use getItemDamageForDisplay()
-v1.12 (17-Jul-2013)
+1.13 - 23-Sep-2013
+- use getItemDamageForDisplay- 
+1.12 - 17-Jul-2013
 - fixed item display name
-- 1.6.4 update (20-Sep-2013)
-v1.11 (10-Jul-2013)
+- 1.6.4 update - 20-Sep-2013
+1.11 - 10-Jul-2013
 - hopefully fixed ModLoader issues
-v1.10 (10-Jul-2013)
-- hopefully fixed ModLoader issues (nope)
-v1.9 (09-Jul-2013)
+1.10 - 10-Jul-2013
+- hopefully fixed ModLoader issues - nope
+1.9 - 09-Jul-2013
 - update update
-- 1.6.2 update (10-Jul-2013)
-v1.8 (05-Jul-2013)
+- 1.6.2 update - 10-Jul-2013
+1.8 - 05-Jul-2013
 - 1.6.1 update
-v1.7 (24-Apr-2013)
+1.7 - 24-Apr-2013
 - addressed potential issue from mods that don't clean up their texture bindings
 - new condig handler
-- updated to 1.5.2 (03-May-2013)
-v1.6 (20-Feb-2013)
+- updated to 1.5.2 - 03-May-2013
+1.6 - 20-Feb-2013
 - updated to support bspkrsCore
-- updated to 1.5 (15-Mar-2013)
-- updated to 1.5.1 (23-Mar-2013)
-v1.5 (24-Jan-2013)
+- updated to 1.5 - 15-Mar-2013
+- updated to 1.5.1 - 23-Mar-2013
+1.5 - 24-Jan-2013
 - added reset code to end of all drawn text
-v1.4 (01-Nov-2012)
+1.4 - 01-Nov-2012
 - fixed Forge/FML compatibility
-- updated for 1.4.5 (21-Nov-2012)
-- updated for 1.4.6 (23-Dec-2012)
-v1.3 (26-Oct-2012)
+- updated for 1.4.5 - 21-Nov-2012
+- updated for 1.4.6 - 23-Dec-2012
+1.3 - 26-Oct-2012
 - initial update to 1.4.2
-v1.2(1.2.5) (06-Oct-2012)
+1.2(1.2.5) - 06-Oct-2012
 - retrofitted v1.2 to 1.2.5
-v1.2 (04-Oct-2012)
+1.2 - 04-Oct-2012
 - damageWarningPercent option replaced with damageColorList
 - blocks and non-damageable items are now shown
 - block overlay will show total count of that block
 - bow overlay shows count of arrows
 - fixed damage values being off by 1
-v1.1 (13-Sep-2012)
+1.1 - 13-Sep-2012
 - added x and y offset options
 - more options to control how damage is displayed
-- fixed item rendering code (should work for mods now)
-- new option to show the standard inventory item overlay (damage bar)
+- fixed item rendering code - should work for mods now
+- new option to show the standard inventory item overlay - damage bar
 - made icons appear on the right when right-aligned
 - switched to shared version checking
-v1.0 (27-Aug-2012)
+1.0 - 27-Aug-2012
 - Initial release

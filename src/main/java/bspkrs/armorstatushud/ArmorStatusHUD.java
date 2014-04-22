@@ -22,7 +22,7 @@ import bspkrs.util.config.Configuration;
 
 public class ArmorStatusHUD
 {
-    public static final String        VERSION_NUMBER              = "1.23(" + Const.MCVERSION + ")";
+    public static final String        VERSION_NUMBER              = "1.24(" + Const.MCVERSION + ")";
     
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -165,7 +165,7 @@ public class ArmorStatusHUD
     public static boolean onTickInGame(Minecraft mc)
     {
         if (enabled && (mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat))
-                && !mc.gameSettings.showDebugInfo && !mc.gameSettings.keyBindPlayerList.isPressed())
+                && !mc.gameSettings.showDebugInfo)
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
             scaledResolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
