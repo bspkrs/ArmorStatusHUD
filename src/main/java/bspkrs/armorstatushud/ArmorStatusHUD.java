@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
@@ -22,7 +23,7 @@ import bspkrs.util.config.Configuration;
 
 public class ArmorStatusHUD
 {
-    public static final String        VERSION_NUMBER              = "1.24(" + Const.MCVERSION + ")";
+    public static final String        VERSION_NUMBER              = "1.25(" + Const.MCVERSION + ")";
     
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
@@ -71,6 +72,7 @@ public class ArmorStatusHUD
     static final List<ColorThreshold> colorList                   = new ArrayList<ColorThreshold>();
     private static Configuration      config;
     private static HUDElement[]       elements;
+    private static Pattern            colorListPattern            = Pattern.compile("([0-9]+,[0-9,a-f]{1}(;[ ]*|$))+");
     
     public static Configuration getConfig()
     {
@@ -112,7 +114,7 @@ public class ArmorStatusHUD
         showItemCount = config.getBoolean(ConfigElement.SHOW_ITEM_COUNT.key(), ctgyGen, showItemCountDefault,
                 ConfigElement.SHOW_ITEM_COUNT.desc(), ConfigElement.SHOW_ITEM_COUNT.languageKey());
         damageColorList = config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
-                ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey());
+                ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey(), colorListPattern);
         damageDisplayType = config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
                 ConfigElement.DAMAGE_DISPLAY_TYPE.desc(), ConfigElement.DAMAGE_DISPLAY_TYPE.validStrings(), ConfigElement.DAMAGE_DISPLAY_TYPE.languageKey());
         damageThresholdType = config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
