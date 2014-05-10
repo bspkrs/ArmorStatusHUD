@@ -13,18 +13,17 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
+import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
 
+import bspkrs.armorstatushud.fml.Reference;
 import bspkrs.client.util.ColorThreshold;
-import bspkrs.util.BSLog;
 import bspkrs.util.CommonUtils;
-import bspkrs.util.Const;
 import bspkrs.util.config.Configuration;
+import cpw.mods.fml.common.FMLLog;
 
 public class ArmorStatusHUD
 {
-    public static final String        VERSION_NUMBER              = "1.25(" + Const.MCVERSION + ")";
-    
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
     
     private final static boolean      enabledDefault              = true;
@@ -70,14 +69,8 @@ public class ArmorStatusHUD
     static float                      zLevel                      = -110.0F;
     private static ScaledResolution   scaledResolution;
     static final List<ColorThreshold> colorList                   = new ArrayList<ColorThreshold>();
-    private static Configuration      config;
     private static HUDElement[]       elements;
     private static Pattern            colorListPattern            = Pattern.compile("([0-9]+,[0-9,a-f]{1}(;[ ]*|$))+");
-    
-    public static Configuration getConfig()
-    {
-        return config;
-    }
     
     public static void initConfig(File file)
     {
@@ -88,7 +81,7 @@ public class ArmorStatusHUD
           //                file.delete();
         }
         
-        config = new Configuration(file);
+        Reference.config = new Configuration(file);
         syncConfig();
     }
     
@@ -96,51 +89,52 @@ public class ArmorStatusHUD
     {
         String ctgyGen = Configuration.CATEGORY_GENERAL;
         
-        config.load();
+        Reference.config.load();
         
-        config.addCustomCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
+        Reference.config.addCustomCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
+        Reference.config.setCategoryIsHotLoadable(ctgyGen, true);
         
-        enabled = config.getBoolean(ConfigElement.ENABLED.key(), ctgyGen, enabledDefault, ConfigElement.ENABLED.desc(),
+        enabled = Reference.config.getBoolean(ConfigElement.ENABLED.key(), ctgyGen, enabledDefault, ConfigElement.ENABLED.desc(),
                 ConfigElement.ENABLED.languageKey());
-        alignMode = config.getString(ConfigElement.ALIGN_MODE.key(), ctgyGen, alignModeDefault, ConfigElement.ALIGN_MODE.desc(),
+        alignMode = Reference.config.getString(ConfigElement.ALIGN_MODE.key(), ctgyGen, alignModeDefault, ConfigElement.ALIGN_MODE.desc(),
                 ConfigElement.ALIGN_MODE.validStrings(), ConfigElement.ALIGN_MODE.languageKey());
-        listMode = config.getString(ConfigElement.LIST_MODE.key(), ctgyGen, listModeDefault, ConfigElement.LIST_MODE.desc(),
+        listMode = Reference.config.getString(ConfigElement.LIST_MODE.key(), ctgyGen, listModeDefault, ConfigElement.LIST_MODE.desc(),
                 ConfigElement.LIST_MODE.validStrings(), ConfigElement.LIST_MODE.languageKey());
-        enableItemName = config.getBoolean(ConfigElement.ENABLE_ITEM_NAME.key(), ctgyGen, enableItemNameDefault,
+        enableItemName = Reference.config.getBoolean(ConfigElement.ENABLE_ITEM_NAME.key(), ctgyGen, enableItemNameDefault,
                 ConfigElement.ENABLE_ITEM_NAME.desc(), ConfigElement.ENABLE_ITEM_NAME.languageKey());
-        showDamageOverlay = config.getBoolean(ConfigElement.SHOW_DAMAGE_OVERLAY.key(), ctgyGen, showDamageOverlayDefault,
+        showDamageOverlay = Reference.config.getBoolean(ConfigElement.SHOW_DAMAGE_OVERLAY.key(), ctgyGen, showDamageOverlayDefault,
                 ConfigElement.SHOW_DAMAGE_OVERLAY.desc(), ConfigElement.SHOW_DAMAGE_OVERLAY.languageKey());
-        showItemCount = config.getBoolean(ConfigElement.SHOW_ITEM_COUNT.key(), ctgyGen, showItemCountDefault,
+        showItemCount = Reference.config.getBoolean(ConfigElement.SHOW_ITEM_COUNT.key(), ctgyGen, showItemCountDefault,
                 ConfigElement.SHOW_ITEM_COUNT.desc(), ConfigElement.SHOW_ITEM_COUNT.languageKey());
-        damageColorList = config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
+        damageColorList = Reference.config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
                 ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey(), colorListPattern);
-        damageDisplayType = config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
+        damageDisplayType = Reference.config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
                 ConfigElement.DAMAGE_DISPLAY_TYPE.desc(), ConfigElement.DAMAGE_DISPLAY_TYPE.validStrings(), ConfigElement.DAMAGE_DISPLAY_TYPE.languageKey());
-        damageThresholdType = config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
+        damageThresholdType = Reference.config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
                 ConfigElement.DAMAGE_THRESHOLD_TYPE.desc(), ConfigElement.DAMAGE_THRESHOLD_TYPE.validStrings(), ConfigElement.DAMAGE_THRESHOLD_TYPE.languageKey());
-        showArmorDamage = config.getBoolean(ConfigElement.SHOW_ARMOR_DAMAGE.key(), ctgyGen, showArmorDamageDefault, ConfigElement.SHOW_ARMOR_DAMAGE.desc(),
+        showArmorDamage = Reference.config.getBoolean(ConfigElement.SHOW_ARMOR_DAMAGE.key(), ctgyGen, showArmorDamageDefault, ConfigElement.SHOW_ARMOR_DAMAGE.desc(),
                 ConfigElement.SHOW_ARMOR_DAMAGE.languageKey());
-        showItemDamage = config.getBoolean(ConfigElement.SHOW_ITEM_DAMAGE.key(), ctgyGen, showItemDamageDefault, ConfigElement.SHOW_ITEM_DAMAGE.desc(),
+        showItemDamage = Reference.config.getBoolean(ConfigElement.SHOW_ITEM_DAMAGE.key(), ctgyGen, showItemDamageDefault, ConfigElement.SHOW_ITEM_DAMAGE.desc(),
                 ConfigElement.SHOW_ITEM_DAMAGE.languageKey());
-        showMaxDamage = config.getBoolean(ConfigElement.SHOW_MAX_DAMAGE.key(), ctgyGen, showMaxDamageDefault,
+        showMaxDamage = Reference.config.getBoolean(ConfigElement.SHOW_MAX_DAMAGE.key(), ctgyGen, showMaxDamageDefault,
                 ConfigElement.SHOW_MAX_DAMAGE.desc(), ConfigElement.SHOW_MAX_DAMAGE.languageKey());
-        showEquippedItem = config.getBoolean(ConfigElement.SHOW_EQUIPPED_ITEM.key(), ctgyGen, showEquippedItemDefault,
+        showEquippedItem = Reference.config.getBoolean(ConfigElement.SHOW_EQUIPPED_ITEM.key(), ctgyGen, showEquippedItemDefault,
                 ConfigElement.SHOW_EQUIPPED_ITEM.desc(), ConfigElement.SHOW_EQUIPPED_ITEM.languageKey());
-        xOffset = config.getInt(ConfigElement.X_OFFSET.key(), ctgyGen, xOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
+        xOffset = Reference.config.getInt(ConfigElement.X_OFFSET.key(), ctgyGen, xOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 ConfigElement.X_OFFSET.desc(), ConfigElement.X_OFFSET.languageKey());
-        yOffset = config.getInt(ConfigElement.Y_OFFSET.key(), ctgyGen, yOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
+        yOffset = Reference.config.getInt(ConfigElement.Y_OFFSET.key(), ctgyGen, yOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
                 ConfigElement.Y_OFFSET.desc(), ConfigElement.Y_OFFSET.languageKey());
-        yOffsetBottomCenter = config.getInt(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key(), ctgyGen, yOffsetBottomCenterDefault,
+        yOffsetBottomCenter = Reference.config.getInt(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key(), ctgyGen, yOffsetBottomCenterDefault,
                 Integer.MIN_VALUE, Integer.MAX_VALUE, ConfigElement.Y_OFFSET_BOTTOM_CENTER.desc(), ConfigElement.Y_OFFSET_BOTTOM_CENTER.languageKey());
-        applyXOffsetToCenter = config.getBoolean(ConfigElement.APPLY_X_OFFSET_TO_CENTER.key(), ctgyGen, applyXOffsetToCenterDefault,
+        applyXOffsetToCenter = Reference.config.getBoolean(ConfigElement.APPLY_X_OFFSET_TO_CENTER.key(), ctgyGen, applyXOffsetToCenterDefault,
                 ConfigElement.APPLY_X_OFFSET_TO_CENTER.desc(), ConfigElement.APPLY_X_OFFSET_TO_CENTER.languageKey());
-        applyYOffsetToMiddle = config.getBoolean(ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.key(), ctgyGen, applyYOffsetToMiddleDefault,
+        applyYOffsetToMiddle = Reference.config.getBoolean(ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.key(), ctgyGen, applyYOffsetToMiddleDefault,
                 ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.desc(), ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.languageKey());
-        showInChat = config.getBoolean(ConfigElement.SHOW_IN_CHAT.key(), ctgyGen, showInChatDefault, ConfigElement.SHOW_IN_CHAT.desc(),
+        showInChat = Reference.config.getBoolean(ConfigElement.SHOW_IN_CHAT.key(), ctgyGen, showInChatDefault, ConfigElement.SHOW_IN_CHAT.desc(),
                 ConfigElement.SHOW_IN_CHAT.languageKey());
         
-        config.save();
+        Reference.config.save();
         
         try
         {
@@ -152,8 +146,8 @@ public class ArmorStatusHUD
         }
         catch (Throwable e)
         {
-            BSLog.warning("Error encountered parsing damageColorList: " + damageColorList);
-            BSLog.warning("Reverting to defaultColorList: " + DEFAULT_COLOR_LIST);
+            FMLLog.log(Reference.MODID, Level.WARN, "Error encountered parsing damageColorList: " + damageColorList);
+            FMLLog.log(Reference.MODID, Level.WARN, "Reverting to defaultColorList: " + DEFAULT_COLOR_LIST);
             for (String s : DEFAULT_COLOR_LIST.split(";"))
             {
                 String[] ct = s.split(",");
