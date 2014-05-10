@@ -1,56 +1,42 @@
 package bspkrs.armorstatushud.fml;
 
-import net.minecraftforge.client.ClientCommandHandler;
-import bspkrs.armorstatushud.ArmorStatusHUD;
-import bspkrs.armorstatushud.CommandArmorStatus;
-import bspkrs.bspkrscore.fml.bspkrsCoreMod;
 import bspkrs.util.Const;
 import bspkrs.util.ModVersionChecker;
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.Metadata;
 import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "ArmorStatusHUD", name = "ArmorStatusHUD", version = ArmorStatusHUD.VERSION_NUMBER, dependencies = "required-after:bspkrsCore",
-        useMetadata = true, guiFactory = "bspkrs.armorstatushud.fml.gui.ModGuiFactoryHandler")
+@Mod(modid = Reference.MODID, name = Reference.NAME, version = "@MOD_VERSION@", dependencies = "required-after:bspkrsCore@[@BSCORE_VERSION@,)", useMetadata = true, guiFactory = Reference.GUI_FACTORY)
 public class ArmorStatusHUDMod
 {
-    public ModVersionChecker        versionChecker;
-    private String                  versionURL = Const.VERSION_URL + "/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
-    private String                  mcfTopic   = "http://www.minecraftforum.net/topic/1114612-";
+    protected ModVersionChecker     versionChecker;
+    protected String                versionURL = Const.VERSION_URL + "/Minecraft/" + Const.MCVERSION + "/armorStatusHUD.version";
+    protected String                mcfTopic   = "http://www.minecraftforum.net/topic/1114612-";
     
-    @Metadata(value = "ArmorStatusHUD")
+    @Metadata(value = Reference.MODID)
     public static ModMetadata       metadata;
     
-    @Instance(value = "ArmorStatusHUD")
+    @Instance(value = Reference.MODID)
     public static ArmorStatusHUDMod instance;
+    
+    @SidedProxy(clientSide = Reference.PROXY_CLIENT, serverSide = Reference.PROXY_COMMON)
+    public static CommonProxy       proxy;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         metadata = event.getModMetadata();
-        ArmorStatusHUD.initConfig(event.getSuggestedConfigurationFile());
-        
-        if (bspkrsCoreMod.instance.allowUpdateCheck)
-        {
-            versionChecker = new ModVersionChecker(metadata.name, metadata.version, versionURL, mcfTopic);
-            versionChecker.checkVersionWithLogging();
-        }
+        proxy.preInit(event);
     }
     
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-        FMLCommonHandler.instance().bus().register(new ASHGameTicker());
-        FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
-        
-        if (event.getSide().isClient())
-        {
-            ClientCommandHandler.instance.registerCommand(new CommandArmorStatus());
-        }
+        proxy.init(event);
     }
 }
