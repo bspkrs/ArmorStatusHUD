@@ -69,7 +69,7 @@ public class ArmorStatusHUD
     static float                      zLevel                      = -110.0F;
     private static ScaledResolution   scaledResolution;
     static final List<ColorThreshold> colorList                   = new ArrayList<ColorThreshold>();
-    private static HUDElement[]       elements;
+    private static List<HUDElement>   elements                    = new ArrayList<HUDElement>();
     private static Pattern            colorListPattern            = Pattern.compile("([0-9]+,[0-9,a-f]{1}(;[ ]*|$))+");
     
     public static void initConfig(File file)
@@ -217,8 +217,7 @@ public class ArmorStatusHUD
     
     private static void getHUDElements(Minecraft mc)
     {
-        elements = new HUDElement[countOfDisplayableItems(mc.thePlayer)];
-        int index = 0;
+        elements.clear();
         
         for (int i = 3; i >= -1; i--)
         {
@@ -229,7 +228,7 @@ public class ArmorStatusHUD
                 itemStack = mc.thePlayer.inventory.armorInventory[i];
             
             if (itemStack != null)
-                elements[index++] = new HUDElement(itemStack, 16, 16, 2, i > -1);
+                elements.add(new HUDElement(itemStack, 16, 16, 2, i > -1));
         }
     }
     
@@ -246,13 +245,13 @@ public class ArmorStatusHUD
     {
         getHUDElements(mc);
         
-        if (elements.length > 0)
+        if (elements.size() > 0)
         {
             int yOffset = enableItemName ? 18 : 16;
             
             if (listMode.equalsIgnoreCase("vertical"))
             {
-                int yBase = getY(elements.length, yOffset);
+                int yBase = getY(elements.size(), yOffset);
                 
                 for (HUDElement e : elements)
                 {
