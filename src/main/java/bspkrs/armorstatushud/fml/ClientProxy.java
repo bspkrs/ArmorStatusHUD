@@ -1,12 +1,11 @@
 package bspkrs.armorstatushud.fml;
 
 import net.minecraftforge.client.ClientCommandHandler;
-import net.minecraftforge.common.MinecraftForge;
 import bspkrs.armorstatushud.ArmorStatusHUD;
 import bspkrs.armorstatushud.CommandArmorStatus;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
 import bspkrs.util.ModVersionChecker;
-import bspkrs.util.config.ConfigChangedEvent;
+import bspkrs.util.config.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -26,9 +25,14 @@ public class ClientProxy extends CommonProxy
         FMLCommonHandler.instance().bus().register(new ASHGameTicker());
         FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
         
-        ClientCommandHandler.instance.registerCommand(new CommandArmorStatus());
+        try
+        {
+            ClientCommandHandler.instance.registerCommand(new CommandArmorStatus());
+        }
+        catch (Throwable e)
+        {}
         
-        MinecraftForge.EVENT_BUS.register(this);
+        FMLCommonHandler.instance().bus().register(this);
         
         if (bspkrsCoreMod.instance.allowUpdateCheck)
         {
@@ -38,7 +42,7 @@ public class ClientProxy extends CommonProxy
     }
     
     @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent event)
+    public void onConfigChanged(OnConfigChangedEvent event)
     {
         if (event.modID.equals(Reference.MODID))
         {

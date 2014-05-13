@@ -29,18 +29,15 @@ public class ASHGameTicker
         
         boolean keepTicking = !(mcClient != null && mcClient.thePlayer != null && mcClient.theWorld != null);
         
-        if (bspkrsCoreMod.instance.allowUpdateCheck && !keepTicking)
+        if (!keepTicking && isRegistered)
         {
-            if (ArmorStatusHUDMod.instance.versionChecker != null)
+            if (bspkrsCoreMod.instance.allowUpdateCheck && ArmorStatusHUDMod.instance.versionChecker != null)
                 if (!ArmorStatusHUDMod.instance.versionChecker.isCurrentVersion())
                     for (String msg : ArmorStatusHUDMod.instance.versionChecker.getInGameMessage())
                         EntityPlayerHelper.addChatMessage(mcClient.thePlayer, new ChatComponentText(msg));
             
-            if (!keepTicking)
-            {
-                FMLCommonHandler.instance().bus().unregister(this);
-                isRegistered = false;
-            }
+            FMLCommonHandler.instance().bus().unregister(this);
+            isRegistered = false;
         }
     }
     
