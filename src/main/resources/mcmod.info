@@ -13,8 +13,8 @@
     "logoFile": "",
     "screenshots": [  ],
     "parent": "",
-    "requiredMods": [ "bspkrsCore@[${bscore_version},]" ],
-    "dependencies": [ "bspkrsCore@[${bscore_version},]" ],
+    "requiredMods": [ "bspkrsCore@[${bscore_version},)" ],
+    "dependencies": [ "bspkrsCore@[${bscore_version},)" ],
     "dependants": [  ],
     "useDependencyInformation": "true"
   }]
