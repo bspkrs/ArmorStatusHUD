@@ -3,6 +3,7 @@ package bspkrs.armorstatushud;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -95,44 +96,69 @@ public class ArmorStatusHUD
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
         Reference.config.setCategoryIsHotLoadable(ctgyGen, true);
         
+        LinkedHashSet<String> orderedKeys = new LinkedHashSet<String>(ConfigElement.values().length);
+        
         enabled = Reference.config.getBoolean(ConfigElement.ENABLED.key(), ctgyGen, enabledDefault, ConfigElement.ENABLED.desc(),
                 ConfigElement.ENABLED.languageKey());
+        orderedKeys.add(ConfigElement.ENABLED.key());
         alignMode = Reference.config.getString(ConfigElement.ALIGN_MODE.key(), ctgyGen, alignModeDefault, ConfigElement.ALIGN_MODE.desc(),
                 ConfigElement.ALIGN_MODE.validStrings(), ConfigElement.ALIGN_MODE.languageKey());
+        orderedKeys.add(ConfigElement.ALIGN_MODE.key());
         listMode = Reference.config.getString(ConfigElement.LIST_MODE.key(), ctgyGen, listModeDefault, ConfigElement.LIST_MODE.desc(),
                 ConfigElement.LIST_MODE.validStrings(), ConfigElement.LIST_MODE.languageKey());
+        orderedKeys.add(ConfigElement.LIST_MODE.key());
         enableItemName = Reference.config.getBoolean(ConfigElement.ENABLE_ITEM_NAME.key(), ctgyGen, enableItemNameDefault,
                 ConfigElement.ENABLE_ITEM_NAME.desc(), ConfigElement.ENABLE_ITEM_NAME.languageKey());
+        orderedKeys.add(ConfigElement.ENABLE_ITEM_NAME.key());
         showDamageOverlay = Reference.config.getBoolean(ConfigElement.SHOW_DAMAGE_OVERLAY.key(), ctgyGen, showDamageOverlayDefault,
                 ConfigElement.SHOW_DAMAGE_OVERLAY.desc(), ConfigElement.SHOW_DAMAGE_OVERLAY.languageKey());
+        orderedKeys.add(ConfigElement.SHOW_DAMAGE_OVERLAY.key());
         showItemCount = Reference.config.getBoolean(ConfigElement.SHOW_ITEM_COUNT.key(), ctgyGen, showItemCountDefault,
                 ConfigElement.SHOW_ITEM_COUNT.desc(), ConfigElement.SHOW_ITEM_COUNT.languageKey());
-        damageColorList = Reference.config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
-                ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey(), colorListPattern);
-        damageDisplayType = Reference.config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
-                ConfigElement.DAMAGE_DISPLAY_TYPE.desc(), ConfigElement.DAMAGE_DISPLAY_TYPE.validStrings(), ConfigElement.DAMAGE_DISPLAY_TYPE.languageKey());
-        damageThresholdType = Reference.config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
-                ConfigElement.DAMAGE_THRESHOLD_TYPE.desc(), ConfigElement.DAMAGE_THRESHOLD_TYPE.validStrings(), ConfigElement.DAMAGE_THRESHOLD_TYPE.languageKey());
-        showArmorDamage = Reference.config.getBoolean(ConfigElement.SHOW_ARMOR_DAMAGE.key(), ctgyGen, showArmorDamageDefault, ConfigElement.SHOW_ARMOR_DAMAGE.desc(),
+        orderedKeys.add(ConfigElement.SHOW_ITEM_COUNT.key());
+        showArmorDamage = Reference.config.getBoolean(ConfigElement.SHOW_ARMOR_DAMAGE.key(), ctgyGen, showArmorDamageDefault,
+                ConfigElement.SHOW_ARMOR_DAMAGE.desc(),
                 ConfigElement.SHOW_ARMOR_DAMAGE.languageKey());
-        showItemDamage = Reference.config.getBoolean(ConfigElement.SHOW_ITEM_DAMAGE.key(), ctgyGen, showItemDamageDefault, ConfigElement.SHOW_ITEM_DAMAGE.desc(),
+        orderedKeys.add(ConfigElement.SHOW_ARMOR_DAMAGE.key());
+        showItemDamage = Reference.config.getBoolean(ConfigElement.SHOW_ITEM_DAMAGE.key(), ctgyGen, showItemDamageDefault,
+                ConfigElement.SHOW_ITEM_DAMAGE.desc(),
                 ConfigElement.SHOW_ITEM_DAMAGE.languageKey());
+        orderedKeys.add(ConfigElement.SHOW_ITEM_DAMAGE.key());
         showMaxDamage = Reference.config.getBoolean(ConfigElement.SHOW_MAX_DAMAGE.key(), ctgyGen, showMaxDamageDefault,
                 ConfigElement.SHOW_MAX_DAMAGE.desc(), ConfigElement.SHOW_MAX_DAMAGE.languageKey());
+        orderedKeys.add(ConfigElement.SHOW_MAX_DAMAGE.key());
         showEquippedItem = Reference.config.getBoolean(ConfigElement.SHOW_EQUIPPED_ITEM.key(), ctgyGen, showEquippedItemDefault,
                 ConfigElement.SHOW_EQUIPPED_ITEM.desc(), ConfigElement.SHOW_EQUIPPED_ITEM.languageKey());
-        xOffset = Reference.config.getInt(ConfigElement.X_OFFSET.key(), ctgyGen, xOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                ConfigElement.X_OFFSET.desc(), ConfigElement.X_OFFSET.languageKey());
-        yOffset = Reference.config.getInt(ConfigElement.Y_OFFSET.key(), ctgyGen, yOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
-                ConfigElement.Y_OFFSET.desc(), ConfigElement.Y_OFFSET.languageKey());
-        yOffsetBottomCenter = Reference.config.getInt(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key(), ctgyGen, yOffsetBottomCenterDefault,
-                Integer.MIN_VALUE, Integer.MAX_VALUE, ConfigElement.Y_OFFSET_BOTTOM_CENTER.desc(), ConfigElement.Y_OFFSET_BOTTOM_CENTER.languageKey());
-        applyXOffsetToCenter = Reference.config.getBoolean(ConfigElement.APPLY_X_OFFSET_TO_CENTER.key(), ctgyGen, applyXOffsetToCenterDefault,
-                ConfigElement.APPLY_X_OFFSET_TO_CENTER.desc(), ConfigElement.APPLY_X_OFFSET_TO_CENTER.languageKey());
-        applyYOffsetToMiddle = Reference.config.getBoolean(ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.key(), ctgyGen, applyYOffsetToMiddleDefault,
-                ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.desc(), ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.languageKey());
+        orderedKeys.add(ConfigElement.SHOW_EQUIPPED_ITEM.key());
         showInChat = Reference.config.getBoolean(ConfigElement.SHOW_IN_CHAT.key(), ctgyGen, showInChatDefault, ConfigElement.SHOW_IN_CHAT.desc(),
                 ConfigElement.SHOW_IN_CHAT.languageKey());
+        orderedKeys.add(ConfigElement.SHOW_IN_CHAT.key());
+        damageColorList = Reference.config.getString(ConfigElement.DAMAGE_COLOR_LIST.key(), ctgyGen, damageColorListDefault,
+                ConfigElement.DAMAGE_COLOR_LIST.desc(), ConfigElement.DAMAGE_COLOR_LIST.languageKey(), colorListPattern);
+        orderedKeys.add(ConfigElement.DAMAGE_COLOR_LIST.key());
+        damageDisplayType = Reference.config.getString(ConfigElement.DAMAGE_DISPLAY_TYPE.key(), ctgyGen, damageDisplayTypeDefault,
+                ConfigElement.DAMAGE_DISPLAY_TYPE.desc(), ConfigElement.DAMAGE_DISPLAY_TYPE.validStrings(), ConfigElement.DAMAGE_DISPLAY_TYPE.languageKey());
+        orderedKeys.add(ConfigElement.DAMAGE_DISPLAY_TYPE.key());
+        damageThresholdType = Reference.config.getString(ConfigElement.DAMAGE_THRESHOLD_TYPE.key(), ctgyGen, damageThresholdTypeDefault,
+                ConfigElement.DAMAGE_THRESHOLD_TYPE.desc(), ConfigElement.DAMAGE_THRESHOLD_TYPE.validStrings(), ConfigElement.DAMAGE_THRESHOLD_TYPE.languageKey());
+        orderedKeys.add(ConfigElement.DAMAGE_THRESHOLD_TYPE.key());
+        xOffset = Reference.config.getInt(ConfigElement.X_OFFSET.key(), ctgyGen, xOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                ConfigElement.X_OFFSET.desc(), ConfigElement.X_OFFSET.languageKey());
+        orderedKeys.add(ConfigElement.X_OFFSET.key());
+        applyXOffsetToCenter = Reference.config.getBoolean(ConfigElement.APPLY_X_OFFSET_TO_CENTER.key(), ctgyGen, applyXOffsetToCenterDefault,
+                ConfigElement.APPLY_X_OFFSET_TO_CENTER.desc(), ConfigElement.APPLY_X_OFFSET_TO_CENTER.languageKey());
+        orderedKeys.add(ConfigElement.APPLY_X_OFFSET_TO_CENTER.key());
+        yOffset = Reference.config.getInt(ConfigElement.Y_OFFSET.key(), ctgyGen, yOffsetDefault, Integer.MIN_VALUE, Integer.MAX_VALUE,
+                ConfigElement.Y_OFFSET.desc(), ConfigElement.Y_OFFSET.languageKey());
+        orderedKeys.add(ConfigElement.Y_OFFSET.key());
+        applyYOffsetToMiddle = Reference.config.getBoolean(ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.key(), ctgyGen, applyYOffsetToMiddleDefault,
+                ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.desc(), ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.languageKey());
+        orderedKeys.add(ConfigElement.APPLY_Y_OFFSET_TO_MIDDLE.key());
+        yOffsetBottomCenter = Reference.config.getInt(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key(), ctgyGen, yOffsetBottomCenterDefault,
+                Integer.MIN_VALUE, Integer.MAX_VALUE, ConfigElement.Y_OFFSET_BOTTOM_CENTER.desc(), ConfigElement.Y_OFFSET_BOTTOM_CENTER.languageKey());
+        orderedKeys.add(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key());
+        
+        Reference.config.setCategoryPropertyOrder(ctgyGen, orderedKeys);
         
         Reference.config.save();
         
