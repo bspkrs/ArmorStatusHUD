@@ -3,7 +3,6 @@ package bspkrs.armorstatushud.fml;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
-import bspkrs.helpers.entity.player.EntityPlayerHelper;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -34,7 +33,7 @@ public class ASHGameTicker
             if (bspkrsCoreMod.instance.allowUpdateCheck && ArmorStatusHUDMod.instance.versionChecker != null)
                 if (!ArmorStatusHUDMod.instance.versionChecker.isCurrentVersion())
                     for (String msg : ArmorStatusHUDMod.instance.versionChecker.getInGameMessage())
-                        EntityPlayerHelper.addChatMessage(mcClient.thePlayer, new ChatComponentText(msg));
+                        mcClient.thePlayer.addChatMessage(new ChatComponentText(msg));
             
             FMLCommonHandler.instance().bus().unregister(this);
             isRegistered = false;
