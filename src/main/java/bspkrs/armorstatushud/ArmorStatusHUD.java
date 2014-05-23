@@ -91,7 +91,7 @@ public class ArmorStatusHUD
         
         Reference.config.load();
         
-        Reference.config.addCustomCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
+        Reference.config.setCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
         Reference.config.setCategoryIsHotLoadable(ctgyGen, true);
         
