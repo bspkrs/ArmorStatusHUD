@@ -1,4 +1,4 @@
-1.26 - ???
+1.26 - 23-May-2014
 - added support for ConfigChangedEvent
 - added proper dependency versioning
 - mod will no longer crash on the server, but will display a log warning

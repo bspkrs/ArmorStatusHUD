@@ -3,7 +3,6 @@ package bspkrs.armorstatushud;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -96,7 +95,7 @@ public class ArmorStatusHUD
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
         Reference.config.setCategoryIsHotLoadable(ctgyGen, true);
         
-        LinkedHashSet<String> orderedKeys = new LinkedHashSet<String>(ConfigElement.values().length);
+        List<String> orderedKeys = new ArrayList<String>(ConfigElement.values().length);
         
         enabled = Reference.config.getBoolean(ConfigElement.ENABLED.key(), ctgyGen, enabledDefault, ConfigElement.ENABLED.desc(),
                 ConfigElement.ENABLED.languageKey());
