@@ -12,6 +12,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
@@ -19,7 +20,6 @@ import org.lwjgl.opengl.GL11;
 import bspkrs.armorstatushud.fml.Reference;
 import bspkrs.client.util.ColorThreshold;
 import bspkrs.util.CommonUtils;
-import bspkrs.util.config.Configuration;
 import cpw.mods.fml.common.FMLLog;
 
 public class ArmorStatusHUD
@@ -93,7 +93,7 @@ public class ArmorStatusHUD
         
         Reference.config.setCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
-        Reference.config.setCategoryIsHotLoadable(ctgyGen, true);
+        Reference.config.setCategoryRequiresWorldRestart(ctgyGen, false);
         
         List<String> orderedKeys = new ArrayList<String>(ConfigElement.values().length);
         
