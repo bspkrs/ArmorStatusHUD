@@ -1,3 +1,5 @@
+1.27 - 30-Jun-2014
+- initial 1.7.10 update
 1.26 - 23-May-2014
 - added support for ConfigChangedEvent
 - added proper dependency versioning
