@@ -5,7 +5,7 @@ import bspkrs.armorstatushud.ArmorStatusHUD;
 import bspkrs.armorstatushud.CommandArmorStatus;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
 import bspkrs.util.ModVersionChecker;
-import bspkrs.util.config.ConfigChangedEvent.OnConfigChangedEvent;
+import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
