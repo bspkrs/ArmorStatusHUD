@@ -1,9 +1,9 @@
 package bspkrs.armorstatushud;
 
-import static bspkrs.util.config.Property.Type.BOOLEAN;
-import static bspkrs.util.config.Property.Type.INTEGER;
-import static bspkrs.util.config.Property.Type.STRING;
-import bspkrs.util.config.Property;
+import static net.minecraftforge.common.config.Property.Type.BOOLEAN;
+import static net.minecraftforge.common.config.Property.Type.INTEGER;
+import static net.minecraftforge.common.config.Property.Type.STRING;
+import net.minecraftforge.common.config.Property;
 
 public enum ConfigElement
 {
