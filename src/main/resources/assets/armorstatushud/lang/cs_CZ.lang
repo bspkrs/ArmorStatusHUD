@@ -36,4 +36,3 @@ bspkrs.ash.configgui.yOffset.tooltip=Svislý ofset od hrany obrazovky (pokud jso
 bspkrs.ash.configgui.yOffset=Svislý HUD ofset
 bspkrs.ash.configgui.yOffsetBottomCenter.tooltip=Svislý ofset použitý pouze pro spodně-střední zarovnání pro vyhnutí se vanilla HUDu.
 bspkrs.ash.configgui.yOffsetBottomCenter=Spodně-střední svislý HUD ofset
-commands.armorstatus.usage=Nastavení statusu brnění
