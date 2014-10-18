@@ -1,4 +1,4 @@
-bspkrs.ash.configgui.alignMode.tooltip=Nastaví pozici HUSu na obrazovce. Správné poziční řetězce jsou topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright.
+bspkrs.ash.configgui.alignMode.tooltip=Nastaví pozici HUDu na obrazovce. Správné poziční řetězce jsou topleft, topcenter, topright, middleleft, middlecenter, middleright, bottomleft, bottomcenter, bottomright.
 bspkrs.ash.configgui.alignMode=HUD pozice
 bspkrs.ash.configgui.applyXOffsetToCenter.tooltip=Nastav na true pokud chceš aby xOfsetová hodnota byla nastavena s použitím zarovnání na střed (x&y).
 bspkrs.ash.configgui.applyXOffsetToCenter=Použít vodorovný ofset na střed
@@ -12,7 +12,7 @@ bspkrs.ash.configgui.damageThresholdType.tooltip=Typ práhu použitého při apl
 bspkrs.ash.configgui.damageThresholdType=Typ práhu barvy poškození
 bspkrs.ash.configgui.enableItemName.tooltip=Nastav na true pro zobrazení jmen předmětů, false pro zakázání.
 bspkrs.ash.configgui.enableItemName=Zobrazit jméno předmětu
-bspkrs.ash.configgui.enabled.tooltip=Povoluje nebo zakazuje zobrazení HUS statusu brnění.
+bspkrs.ash.configgui.enabled.tooltip=Povoluje nebo zakazuje zobrazení HUD statusu brnění.
 bspkrs.ash.configgui.enabled=Povoleno
 bspkrs.ash.configgui.listMode.tooltip=Nastaví směr pro zobrazení statusu předmětů. Správné řetězce hodnot jsou horizontal a vertical.
 bspkrs.ash.configgui.listMode=HUD rozhraní
