@@ -12,25 +12,25 @@ public class CommandArmorStatus extends CommandBase
     {
         return "armorstatus";
     }
-    
+
     @Override
     public String getCommandUsage(ICommandSender var1)
     {
         return "commands.armorstatus.usage";
     }
-    
+
     @Override
     public boolean canCommandSenderUseCommand(ICommandSender par1ICommandSender)
     {
         return true;
     }
-    
+
     @Override
     public int getRequiredPermissionLevel()
     {
         return 1;
     }
-    
+
     @Override
     public void processCommand(ICommandSender var1, String[] var2)
     {
@@ -43,13 +43,13 @@ public class CommandArmorStatus extends CommandBase
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public int compareTo(Object object)
     {
         if (object instanceof CommandBase)
             return this.getCommandName().compareTo(((CommandBase) object).getCommandName());
-        
+
         return 0;
     }
 }

@@ -23,7 +23,7 @@ public class HUDElement
     private int            itemDamageW;
     private final boolean  isArmor;
     private Minecraft      mc         = Minecraft.getMinecraft();
-    
+
     public HUDElement(ItemStack itemStack, int iconW, int iconH, int padW, boolean isArmor)
     {
         this.itemStack = itemStack;
@@ -31,35 +31,35 @@ public class HUDElement
         this.iconH = iconH;
         this.padW = padW;
         this.isArmor = isArmor;
-        
+
         initSize();
     }
-    
+
     public int width()
     {
         return elementW;
     }
-    
+
     public int height()
     {
         return elementH;
     }
-    
+
     private void initSize()
     {
-        elementH = ArmorStatusHUD.enableItemName ? Math.max(Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * 2, iconH) :
-                Math.max(mc.fontRenderer.FONT_HEIGHT, iconH);
-        
+        elementH = ArmorStatusHUD.enableItemName ? Math.max(Minecraft.getMinecraft().fontRendererObj.FONT_HEIGHT * 2, iconH) :
+                Math.max(mc.fontRendererObj.FONT_HEIGHT, iconH);
+
         if (itemStack != null)
         {
             int damage = 1;
             int maxDamage = 1;
-            
+
             if (((isArmor && ArmorStatusHUD.showArmorDamage) || (!isArmor && ArmorStatusHUD.showItemDamage)) && itemStack.isItemStackDamageable())
             {
-                maxDamage = itemStack.getMaxDamage() + 1;
-                damage = maxDamage - itemStack.getItemDamageForDisplay();
-                
+                maxDamage = itemStack.getMaxDurability() + 1;
+                damage = maxDamage - itemStack.getCurrentDurability();
+
                 if (ArmorStatusHUD.damageDisplayType.equalsIgnoreCase("value"))
                     itemDamage = "\247" + ColorThreshold.getColorCode(ArmorStatusHUD.colorList,
                             (ArmorStatusHUD.damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) + damage +
@@ -69,21 +69,21 @@ public class HUDElement
                             (ArmorStatusHUD.damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) +
                             (damage * 100 / maxDamage) + "%";
             }
-            
-            itemDamageW = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemDamage));
+
+            itemDamageW = mc.fontRendererObj.getStringWidth(HUDUtils.stripCtrl(itemDamage));
             elementW = padW + iconW + padW + itemDamageW;
-            
+
             if (ArmorStatusHUD.enableItemName)
             {
                 itemName = itemStack.getDisplayName();
                 elementW = padW + iconW + padW +
-                        Math.max(mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName)), itemDamageW);
+                        Math.max(mc.fontRendererObj.getStringWidth(HUDUtils.stripCtrl(itemName)), itemDamageW);
             }
-            
-            itemNameW = mc.fontRenderer.getStringWidth(HUDUtils.stripCtrl(itemName));
+
+            itemNameW = mc.fontRendererObj.getStringWidth(HUDUtils.stripCtrl(itemName));
         }
     }
-    
+
     public void renderToHud(int x, int y)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -91,31 +91,31 @@ public class HUDElement
         RenderHelper.enableStandardItemLighting();
         RenderHelper.enableGUIStandardItemLighting();
         ArmorStatusHUD.itemRenderer.zLevel = 200.0F;
-        
+
         if (ArmorStatusHUD.alignMode.toLowerCase().contains("right"))
         {
-            ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, x - (iconW + padW), y);
-            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x - (iconW + padW), y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
-            
+            ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRendererObj, mc.getTextureManager(), itemStack, x - (iconW + padW), y);
+            HUDUtils.renderItemOverlayIntoGUI(mc.fontRendererObj, itemStack, x - (iconW + padW), y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
+
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
             GL11.glDisable(GL11.GL_BLEND);
-            
-            mc.fontRenderer.drawStringWithShadow(itemName + "\247r", x - (padW + iconW + padW) - itemNameW, y, 0xffffff);
-            mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", x - (padW + iconW + padW) - itemDamageW,
+
+            mc.fontRendererObj.drawStringWithShadow(itemName + "\247r", x - (padW + iconW + padW) - itemNameW, y, 0xffffff);
+            mc.fontRendererObj.drawStringWithShadow(itemDamage + "\247r", x - (padW + iconW + padW) - itemDamageW,
                     y + (ArmorStatusHUD.enableItemName ? elementH / 2 : elementH / 4), 0xffffff);
         }
         else
         {
-            ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRenderer, mc.getTextureManager(), itemStack, x, y);
-            HUDUtils.renderItemOverlayIntoGUI(mc.fontRenderer, itemStack, x, y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
-            
+            ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRendererObj, mc.getTextureManager(), itemStack, x, y);
+            HUDUtils.renderItemOverlayIntoGUI(mc.fontRendererObj, itemStack, x, y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
+
             RenderHelper.disableStandardItemLighting();
             GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
             GL11.glDisable(GL11.GL_BLEND);
-            
-            mc.fontRenderer.drawStringWithShadow(itemName + "\247r", x + iconW + padW, y, 0xffffff);
-            mc.fontRenderer.drawStringWithShadow(itemDamage + "\247r", x + iconW + padW,
+
+            mc.fontRendererObj.drawStringWithShadow(itemName + "\247r", x + iconW + padW, y, 0xffffff);
+            mc.fontRendererObj.drawStringWithShadow(itemDamage + "\247r", x + iconW + padW,
                     y + (ArmorStatusHUD.enableItemName ? elementH / 2 : elementH / 4), 0xffffff);
         }
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);

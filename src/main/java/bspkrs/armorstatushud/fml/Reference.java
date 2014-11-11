@@ -9,6 +9,6 @@ public class Reference
     public static final String  PROXY_COMMON = "bspkrs.armorstatushud.fml.CommonProxy";
     public static final String  PROXY_CLIENT = "bspkrs.armorstatushud.fml.ClientProxy";
     public static final String  GUI_FACTORY  = "bspkrs.armorstatushud.fml.gui.ModGuiFactoryHandler";
-    
+
     public static Configuration config       = null;
 }

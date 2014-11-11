@@ -18,29 +18,29 @@ public class ClientProxy extends CommonProxy
     {
         ArmorStatusHUD.initConfig(event.getSuggestedConfigurationFile());
     }
-    
+
     @Override
     public void init(FMLInitializationEvent event)
     {
         FMLCommonHandler.instance().bus().register(new ASHGameTicker());
         FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
-        
+
         try
         {
             ClientCommandHandler.instance.registerCommand(new CommandArmorStatus());
         }
         catch (Throwable e)
         {}
-        
+
         FMLCommonHandler.instance().bus().register(this);
-        
+
         if (bspkrsCoreMod.instance.allowUpdateCheck)
         {
             ArmorStatusHUDMod.instance.versionChecker = new ModVersionChecker(Reference.MODID, ArmorStatusHUDMod.metadata.version, ArmorStatusHUDMod.instance.versionURL, ArmorStatusHUDMod.instance.mcfTopic);
             ArmorStatusHUDMod.instance.versionChecker.checkVersionWithLogging();
         }
     }
-    
+
     @SubscribeEvent
     public void onConfigChanged(OnConfigChangedEvent event)
     {

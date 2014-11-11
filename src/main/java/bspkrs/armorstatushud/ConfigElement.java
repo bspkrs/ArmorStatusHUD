@@ -48,13 +48,13 @@ public enum ConfigElement
             "Set to true if you want the yOffset value to be applied when using a middle alignment", BOOLEAN),
     SHOW_IN_CHAT("showInChat", "bspkrs.ash.configgui.showInChat",
             "Set to true to show info when chat is open, false to disable info when chat is open", BOOLEAN);
-    
+
     private String        key;
     private String        langKey;
     private String        desc;
     private Property.Type propertyType;
     private String[]      validStrings;
-    
+
     private ConfigElement(String key, String langKey, String desc, Property.Type propertyType, String[] validStrings)
     {
         this.key = key;
@@ -63,32 +63,32 @@ public enum ConfigElement
         this.propertyType = propertyType;
         this.validStrings = validStrings;
     }
-    
+
     private ConfigElement(String key, String langKey, String desc, Property.Type propertyType)
     {
         this(key, langKey, desc, propertyType, new String[0]);
     }
-    
+
     public String key()
     {
         return key;
     }
-    
+
     public String languageKey()
     {
         return langKey;
     }
-    
+
     public String desc()
     {
         return desc;
     }
-    
+
     public Property.Type propertyType()
     {
         return propertyType;
     }
-    
+
     public String[] validStrings()
     {
         return validStrings;

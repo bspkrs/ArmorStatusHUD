@@ -25,7 +25,7 @@ import cpw.mods.fml.common.FMLLog;
 public class ArmorStatusHUD
 {
     private static final String       DEFAULT_COLOR_LIST          = "100,f; 80,7; 60,e; 40,6; 25,c; 10,4";
-    
+
     private final static boolean      enabledDefault              = true;
     public static boolean             enabled                     = enabledDefault;
     private static String             alignModeDefault            = "bottomleft";
@@ -64,39 +64,39 @@ public class ArmorStatusHUD
     public static boolean             applyYOffsetToMiddle        = applyYOffsetToMiddleDefault;
     private static boolean            showInChatDefault           = false;
     public static boolean             showInChat                  = showInChatDefault;
-    
+
     static RenderItem                 itemRenderer                = new RenderItem();
     static float                      zLevel                      = -110.0F;
     private static ScaledResolution   scaledResolution;
     static final List<ColorThreshold> colorList                   = new ArrayList<ColorThreshold>();
     private static List<HUDElement>   elements                    = new ArrayList<HUDElement>();
     private static Pattern            colorListPattern            = Pattern.compile("([0-9]+,[0-9,a-f]{1}(;[ ]*|$))+");
-    
+
     public static void initConfig(File file)
     {
-        
+
         if (!CommonUtils.isObfuscatedEnv())
         { // debug settings for deobfuscated execution
           //            if (file.exists())
           //                file.delete();
         }
-        
+
         Reference.config = new Configuration(file);
         syncConfig();
     }
-    
+
     public static void syncConfig()
     {
         String ctgyGen = Configuration.CATEGORY_GENERAL;
-        
+
         Reference.config.load();
-        
+
         Reference.config.setCategoryComment(ctgyGen, "ATTENTION: Editing this file manually is no longer necessary. \n" +
                 "Type the command '/armorstatus config' without the quotes in-game to modify these settings.");
         Reference.config.setCategoryRequiresWorldRestart(ctgyGen, false);
-        
+
         List<String> orderedKeys = new ArrayList<String>(ConfigElement.values().length);
-        
+
         enabled = Reference.config.getBoolean(ConfigElement.ENABLED.key(), ctgyGen, enabledDefault, ConfigElement.ENABLED.desc(),
                 ConfigElement.ENABLED.languageKey());
         orderedKeys.add(ConfigElement.ENABLED.key());
@@ -156,11 +156,11 @@ public class ArmorStatusHUD
         yOffsetBottomCenter = Reference.config.getInt(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key(), ctgyGen, yOffsetBottomCenterDefault,
                 Integer.MIN_VALUE, Integer.MAX_VALUE, ConfigElement.Y_OFFSET_BOTTOM_CENTER.desc(), ConfigElement.Y_OFFSET_BOTTOM_CENTER.languageKey());
         orderedKeys.add(ConfigElement.Y_OFFSET_BOTTOM_CENTER.key());
-        
+
         Reference.config.setCategoryPropertyOrder(ctgyGen, orderedKeys);
-        
+
         Reference.config.save();
-        
+
         try
         {
             for (String s : damageColorList.split(";"))
@@ -179,10 +179,10 @@ public class ArmorStatusHUD
                 colorList.add(new ColorThreshold(Integer.valueOf(ct[0].trim()), ct[1].trim()));
             }
         }
-        
+
         Collections.sort(colorList);
     }
-    
+
     public static boolean onTickInGame(Minecraft mc)
     {
         if (enabled && (mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat))
@@ -193,10 +193,10 @@ public class ArmorStatusHUD
             displayArmorStatus(mc);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         }
-        
+
         return true;
     }
-    
+
     private static int getX(int width)
     {
         if (alignMode.toLowerCase().contains("center"))
@@ -206,7 +206,7 @@ public class ArmorStatusHUD
         else
             return xOffset;
     }
-    
+
     private static int getY(int rowCount, int height)
     {
         if (alignMode.toLowerCase().contains("middle"))
@@ -218,12 +218,12 @@ public class ArmorStatusHUD
         else
             return yOffset;
     }
-    
+
     public static boolean playerHasArmorEquipped(EntityPlayer player)
     {
         return player.inventory.armorItemInSlot(0) != null || player.inventory.armorItemInSlot(1) != null || player.inventory.armorItemInSlot(2) != null || player.inventory.armorItemInSlot(3) != null;
     }
-    
+
     public static int countOfDisplayableItems(EntityPlayer player)
     {
         int i = 0;
@@ -234,16 +234,16 @@ public class ArmorStatusHUD
         i += showEquippedItem && canDisplayItem(player.getCurrentEquippedItem()) ? 1 : 0;
         return i;
     }
-    
+
     public static boolean canDisplayItem(ItemStack item)
     {
         return item != null;
     }
-    
+
     private static void getHUDElements(Minecraft mc)
     {
         elements.clear();
-        
+
         for (int i = 3; i >= -1; i--)
         {
             ItemStack itemStack = null;
@@ -251,33 +251,33 @@ public class ArmorStatusHUD
                 itemStack = mc.thePlayer.getCurrentEquippedItem();
             else if (i != -1)
                 itemStack = mc.thePlayer.inventory.armorInventory[i];
-            
+
             if (itemStack != null)
                 elements.add(new HUDElement(itemStack, 16, 16, 2, i > -1));
         }
     }
-    
+
     private static int getElementsWidth()
     {
         int r = 0;
         for (HUDElement he : elements)
             r += he.width();
-        
+
         return r;
     }
-    
+
     private static void displayArmorStatus(Minecraft mc)
     {
         getHUDElements(mc);
-        
+
         if (elements.size() > 0)
         {
             int yOffset = enableItemName ? 18 : 16;
-            
+
             if (listMode.equalsIgnoreCase("vertical"))
             {
                 int yBase = getY(elements.size(), yOffset);
-                
+
                 for (HUDElement e : elements)
                 {
                     e.renderToHud((alignMode.toLowerCase().contains("right") ? getX(0) : getX(e.width())), yBase);
@@ -290,7 +290,7 @@ public class ArmorStatusHUD
                 int yBase = getY(1, yOffset);
                 int xBase = getX(totalWidth);
                 int prevX = 0;
-                
+
                 for (HUDElement e : elements)
                 {
                     e.renderToHud(xBase + prevX + (alignMode.toLowerCase().contains("right") ? e.width() : 0), yBase);
