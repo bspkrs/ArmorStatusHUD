@@ -32,6 +32,7 @@ repositories {
         url "http://bspk.rs/MC"
         layout "pattern", {
             artifact "[module]/deobf/%5B${config.minecraft_version}%5D[module]-deobf-[revision].[ext]"
+            artifact "[module]/deobf/[${config.minecraft_version}][module]-deobf-[revision].[ext]"
         }
     }
 }
@@ -48,7 +49,7 @@ minecraft {
     version = config.minecraft_version + "-" + config.forge_version // grab latest forge
     mappings = config.mappings_version
     assetDir = "run/assets"
-    replace '@MOD_VERSION@', config.mod_version
+    replace '@MOD_VERSION@', version
     replace '@BSCORE_VERSION@', config.bscore_version
 }
 
@@ -60,7 +61,7 @@ processResources {
 
         // replaces
         expand ([
-            'mod_version': config.mod_version,
+            'mod_version': version,
             'bscore_version': config.bscore_version,
             'bscore_jar': "[${config.minecraft_version}]bspkrsCore-universal-${config.bscore_version}.jar",
             'pattern': "\\\\[.+?\\\\](\\\\w+).*?([\\\\d\\\\.]+)[-\\\\w]*\\\\.[^\\\\d]+",
@@ -78,7 +79,7 @@ processResources {
 
 // change the name of my obfuscated jar
 jar {
-    appendix = 'client'
+    appendix = config.appendix
 }
 
 // add a source jar
