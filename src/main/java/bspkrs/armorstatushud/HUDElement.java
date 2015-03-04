@@ -2,6 +2,7 @@ package bspkrs.armorstatushud;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -11,18 +12,18 @@ import bspkrs.client.util.HUDUtils;
 
 public class HUDElement
 {
-    public final ItemStack itemStack;
-    public final int       iconW;
-    public final int       iconH;
-    public final int       padW;
-    private int            elementW;
-    private int            elementH;
-    private String         itemName   = "";
-    private int            itemNameW;
-    private String         itemDamage = "";
-    private int            itemDamageW;
-    private final boolean  isArmor;
-    private Minecraft      mc         = Minecraft.getMinecraft();
+    public final ItemStack  itemStack;
+    public final int        iconW;
+    public final int        iconH;
+    public final int        padW;
+    private int             elementW;
+    private int             elementH;
+    private String          itemName   = "";
+    private int             itemNameW;
+    private String          itemDamage = "";
+    private int             itemDamageW;
+    private final boolean   isArmor;
+    private final Minecraft mc         = Minecraft.getMinecraft();
 
     public HUDElement(ItemStack itemStack, int iconW, int iconH, int padW, boolean isArmor)
     {
@@ -57,17 +58,17 @@ public class HUDElement
 
             if (((isArmor && ArmorStatusHUD.showArmorDamage) || (!isArmor && ArmorStatusHUD.showItemDamage)) && itemStack.isItemStackDamageable())
             {
-                maxDamage = itemStack.getMaxDurability() + 1;
-                damage = maxDamage - itemStack.getCurrentDurability();
+                maxDamage = itemStack.getMaxDamage() + 1;
+                damage = maxDamage - itemStack.getItemDamage();
 
                 if (ArmorStatusHUD.damageDisplayType.equalsIgnoreCase("value"))
                     itemDamage = "\247" + ColorThreshold.getColorCode(ArmorStatusHUD.colorList,
-                            (ArmorStatusHUD.damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) + damage +
+                            (ArmorStatusHUD.damageThresholdType.equalsIgnoreCase("percent") ? (damage * 100) / maxDamage : damage)) + damage +
                             (ArmorStatusHUD.showMaxDamage ? "/" + maxDamage : "");
                 else if (ArmorStatusHUD.damageDisplayType.equalsIgnoreCase("percent"))
                     itemDamage = "\247" + ColorThreshold.getColorCode(ArmorStatusHUD.colorList,
-                            (ArmorStatusHUD.damageThresholdType.equalsIgnoreCase("percent") ? damage * 100 / maxDamage : damage)) +
-                            (damage * 100 / maxDamage) + "%";
+                            (ArmorStatusHUD.damageThresholdType.equalsIgnoreCase("percent") ? (damage * 100) / maxDamage : damage)) +
+                            ((damage * 100) / maxDamage) + "%";
             }
 
             itemDamageW = mc.fontRendererObj.getStringWidth(HUDUtils.stripCtrl(itemDamage));
@@ -86,15 +87,16 @@ public class HUDElement
 
     public void renderToHud(int x, int y)
     {
+        RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
         RenderHelper.enableStandardItemLighting();
         RenderHelper.enableGUIStandardItemLighting();
-        ArmorStatusHUD.itemRenderer.zLevel = 200.0F;
+        itemRenderer.zLevel = 200.0F;
 
         if (ArmorStatusHUD.alignMode.toLowerCase().contains("right"))
         {
-            ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRendererObj, mc.getTextureManager(), itemStack, x - (iconW + padW), y);
+            itemRenderer.renderItemAndEffectIntoGUI(itemStack, x - (iconW + padW), y);
             HUDUtils.renderItemOverlayIntoGUI(mc.fontRendererObj, itemStack, x - (iconW + padW), y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
 
             RenderHelper.disableStandardItemLighting();
@@ -107,7 +109,7 @@ public class HUDElement
         }
         else
         {
-            ArmorStatusHUD.itemRenderer.renderItemAndEffectIntoGUI(mc.fontRendererObj, mc.getTextureManager(), itemStack, x, y);
+            itemRenderer.renderItemAndEffectIntoGUI(itemStack, x, y);
             HUDUtils.renderItemOverlayIntoGUI(mc.fontRendererObj, itemStack, x, y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
 
             RenderHelper.disableStandardItemLighting();

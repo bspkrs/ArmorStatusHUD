@@ -9,10 +9,10 @@ import java.util.regex.Pattern;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.FMLLog;
 
 import org.apache.logging.log4j.Level;
 import org.lwjgl.opengl.GL11;
@@ -20,7 +20,6 @@ import org.lwjgl.opengl.GL11;
 import bspkrs.armorstatushud.fml.Reference;
 import bspkrs.client.util.ColorThreshold;
 import bspkrs.util.CommonUtils;
-import cpw.mods.fml.common.FMLLog;
 
 public class ArmorStatusHUD
 {
@@ -65,7 +64,6 @@ public class ArmorStatusHUD
     private static boolean            showInChatDefault           = false;
     public static boolean             showInChat                  = showInChatDefault;
 
-    static RenderItem                 itemRenderer                = new RenderItem();
     static float                      zLevel                      = -110.0F;
     private static ScaledResolution   scaledResolution;
     static final List<ColorThreshold> colorList                   = new ArrayList<ColorThreshold>();
@@ -185,7 +183,7 @@ public class ArmorStatusHUD
 
     public static boolean onTickInGame(Minecraft mc)
     {
-        if (enabled && (mc.inGameHasFocus || mc.currentScreen == null || (mc.currentScreen instanceof GuiChat && showInChat))
+        if (enabled && (mc.inGameHasFocus || (mc.currentScreen == null) || ((mc.currentScreen instanceof GuiChat) && showInChat))
                 && !mc.gameSettings.showDebugInfo)
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -200,7 +198,7 @@ public class ArmorStatusHUD
     private static int getX(int width)
     {
         if (alignMode.toLowerCase().contains("center"))
-            return scaledResolution.getScaledWidth() / 2 - width / 2 + (applyXOffsetToCenter ? xOffset : 0);
+            return ((scaledResolution.getScaledWidth() / 2) - (width / 2)) + (applyXOffsetToCenter ? xOffset : 0);
         else if (alignMode.toLowerCase().contains("right"))
             return scaledResolution.getScaledWidth() - width - xOffset;
         else
@@ -210,7 +208,7 @@ public class ArmorStatusHUD
     private static int getY(int rowCount, int height)
     {
         if (alignMode.toLowerCase().contains("middle"))
-            return (scaledResolution.getScaledHeight() / 2) - ((rowCount * height) / 2) + (applyYOffsetToMiddle ? yOffset : 0);
+            return ((scaledResolution.getScaledHeight() / 2) - ((rowCount * height) / 2)) + (applyYOffsetToMiddle ? yOffset : 0);
         else if (alignMode.equalsIgnoreCase("bottomleft") || alignMode.equalsIgnoreCase("bottomright"))
             return scaledResolution.getScaledHeight() - (rowCount * height) - yOffset;
         else if (alignMode.equalsIgnoreCase("bottomcenter"))
@@ -221,7 +219,7 @@ public class ArmorStatusHUD
 
     public static boolean playerHasArmorEquipped(EntityPlayer player)
     {
-        return player.inventory.armorItemInSlot(0) != null || player.inventory.armorItemInSlot(1) != null || player.inventory.armorItemInSlot(2) != null || player.inventory.armorItemInSlot(3) != null;
+        return (player.inventory.armorItemInSlot(0) != null) || (player.inventory.armorItemInSlot(1) != null) || (player.inventory.armorItemInSlot(2) != null) || (player.inventory.armorItemInSlot(3) != null);
     }
 
     public static int countOfDisplayableItems(EntityPlayer player)
@@ -247,7 +245,7 @@ public class ArmorStatusHUD
         for (int i = 3; i >= -1; i--)
         {
             ItemStack itemStack = null;
-            if (i == -1 && showEquippedItem)
+            if ((i == -1) && showEquippedItem)
                 itemStack = mc.thePlayer.getCurrentEquippedItem();
             else if (i != -1)
                 itemStack = mc.thePlayer.inventory.armorInventory[i];

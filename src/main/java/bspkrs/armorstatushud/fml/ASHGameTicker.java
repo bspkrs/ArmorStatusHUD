@@ -3,11 +3,11 @@ package bspkrs.armorstatushud.fml;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
-import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 
 public class ASHGameTicker
 {

@@ -5,11 +5,11 @@ import bspkrs.armorstatushud.ArmorStatusHUD;
 import bspkrs.armorstatushud.CommandArmorStatus;
 import bspkrs.bspkrscore.fml.bspkrsCoreMod;
 import bspkrs.util.ModVersionChecker;
-import cpw.mods.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends CommonProxy
 {
