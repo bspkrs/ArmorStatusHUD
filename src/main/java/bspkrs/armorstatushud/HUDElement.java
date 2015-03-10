@@ -1,6 +1,7 @@
 package bspkrs.armorstatushud;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -89,8 +90,9 @@ public class HUDElement
     {
         RenderItem itemRenderer = Minecraft.getMinecraft().getRenderItem();
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        GL11.glEnable(32826 /* GL_RESCALE_NORMAL_EXT */);
-        RenderHelper.enableStandardItemLighting();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         RenderHelper.enableGUIStandardItemLighting();
         itemRenderer.zLevel = 200.0F;
 
@@ -100,8 +102,8 @@ public class HUDElement
             HUDUtils.renderItemOverlayIntoGUI(mc.fontRendererObj, itemStack, x - (iconW + padW), y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
 
             RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
-            GL11.glDisable(GL11.GL_BLEND);
+            GlStateManager.disableRescaleNormal();
+            GlStateManager.disableBlend();
 
             mc.fontRendererObj.drawStringWithShadow(itemName + "\247r", x - (padW + iconW + padW) - itemNameW, y, 0xffffff);
             mc.fontRendererObj.drawStringWithShadow(itemDamage + "\247r", x - (padW + iconW + padW) - itemDamageW,
@@ -113,8 +115,8 @@ public class HUDElement
             HUDUtils.renderItemOverlayIntoGUI(mc.fontRendererObj, itemStack, x, y, ArmorStatusHUD.showDamageOverlay, ArmorStatusHUD.showItemCount);
 
             RenderHelper.disableStandardItemLighting();
-            GL11.glDisable(32826 /* GL_RESCALE_NORMAL_EXT */);
-            GL11.glDisable(GL11.GL_BLEND);
+            GlStateManager.disableRescaleNormal();
+            GlStateManager.disableBlend();
 
             mc.fontRendererObj.drawStringWithShadow(itemName + "\247r", x + iconW + padW, y, 0xffffff);
             mc.fontRendererObj.drawStringWithShadow(itemDamage + "\247r", x + iconW + padW,
