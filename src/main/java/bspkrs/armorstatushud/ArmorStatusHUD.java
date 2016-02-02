@@ -187,7 +187,7 @@ public class ArmorStatusHUD
                 && !mc.gameSettings.showDebugInfo)
         {
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-            scaledResolution = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+            scaledResolution = new ScaledResolution(mc);
             displayArmorStatus(mc);
             GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         }

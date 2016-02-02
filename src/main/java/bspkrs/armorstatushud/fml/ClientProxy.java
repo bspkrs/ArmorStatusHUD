@@ -1,12 +1,10 @@
 package bspkrs.armorstatushud.fml;
 
-import net.minecraftforge.client.ClientCommandHandler;
 import bspkrs.armorstatushud.ArmorStatusHUD;
 import bspkrs.armorstatushud.CommandArmorStatus;
-import bspkrs.bspkrscore.fml.bspkrsCoreMod;
-import bspkrs.util.ModVersionChecker;
+import net.minecraftforge.client.ClientCommandHandler;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -22,8 +20,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void init(FMLInitializationEvent event)
     {
-        FMLCommonHandler.instance().bus().register(new ASHGameTicker());
-        FMLCommonHandler.instance().bus().register(new ASHRenderTicker());
+        MinecraftForge.EVENT_BUS.register(new ASHRenderTicker());
 
         try
         {
@@ -32,13 +29,7 @@ public class ClientProxy extends CommonProxy
         catch (Throwable e)
         {}
 
-        FMLCommonHandler.instance().bus().register(this);
-
-        if (bspkrsCoreMod.instance.allowUpdateCheck)
-        {
-            ArmorStatusHUDMod.instance.versionChecker = new ModVersionChecker(Reference.MODID, ArmorStatusHUDMod.metadata.version, ArmorStatusHUDMod.instance.versionURL, ArmorStatusHUDMod.instance.mcfTopic);
-            ArmorStatusHUDMod.instance.versionChecker.checkVersionWithLogging();
-        }
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
