@@ -43,13 +43,4 @@ public class CommandArmorStatus extends CommandBase
             e.printStackTrace();
         }
     }
-
-    @Override
-    public int compareTo(Object object)
-    {
-        if (object instanceof CommandBase)
-            return this.getCommandName().compareTo(((CommandBase) object).getCommandName());
-
-        return 0;
-    }
 }
