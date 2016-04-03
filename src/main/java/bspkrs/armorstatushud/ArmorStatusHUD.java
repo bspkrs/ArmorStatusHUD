@@ -229,7 +229,8 @@ public class ArmorStatusHUD
         i += canDisplayItem(player.inventory.armorItemInSlot(1)) ? 1 : 0;
         i += canDisplayItem(player.inventory.armorItemInSlot(2)) ? 1 : 0;
         i += canDisplayItem(player.inventory.armorItemInSlot(3)) ? 1 : 0;
-        i += showEquippedItem && canDisplayItem(player.getCurrentEquippedItem()) ? 1 : 0;
+        i += showEquippedItem && canDisplayItem(player.getHeldItemOffhand()) ? 1 : 0;
+        i += showEquippedItem && canDisplayItem(player.getHeldItemMainhand()) ? 1 : 0;
         return i;
     }
 
@@ -242,12 +243,14 @@ public class ArmorStatusHUD
     {
         elements.clear();
 
-        for (int i = 3; i >= -1; i--)
+        for (int i = 3; i >= -2; i--)
         {
             ItemStack itemStack = null;
-            if ((i == -1) && showEquippedItem)
-                itemStack = mc.thePlayer.getCurrentEquippedItem();
-            else if (i != -1)
+            if (i == -1)
+                itemStack = showEquippedItem ? mc.thePlayer.getHeldItemOffhand() : null;
+            else if (i == -2)
+                itemStack = showEquippedItem ? mc.thePlayer.getHeldItemMainhand() : null;
+            else
                 itemStack = mc.thePlayer.inventory.armorInventory[i];
 
             if (itemStack != null)
