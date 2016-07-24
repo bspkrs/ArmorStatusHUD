@@ -35,7 +35,7 @@ public class ClientProxy extends CommonProxy
     @SubscribeEvent
     public void onConfigChanged(OnConfigChangedEvent event)
     {
-        if (event.modID.equals(Reference.MODID))
+        if (event.getModID().equals(Reference.MODID))
         {
             Reference.config.save();
             ArmorStatusHUD.syncConfig();

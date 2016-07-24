@@ -5,7 +5,7 @@
     "name": "ArmorStatusHUD",
     "description": "Provides a HUD with your equipped armor/item stats.",
     "version": "${mod_version}",
-    "mcversion": "${minecraft_version}",
+    "mcversion": "${minecraft_maxversion}",
     "url": "http://www.minecraftforum.net/topic/1114612-/",
     "updateUrl": "",
     "authorList": [ "bspkrs" ],
@@ -13,8 +13,8 @@
     "logoFile": "",
     "screenshots": [  ],
     "parent": "",
-    "requiredMods": [ "bspkrsCore@[${bscore_version},)" ],
-    "dependencies": [ "bspkrsCore@[${bscore_version},)" ],
+    "requiredMods": [ "Forge@[${forge_version},${forge_versionlimit})", "bspkrsCore@[${bscore_version},)" ],
+    "dependencies": [ "Forge@[${forge_version},${forge_versionlimit})", "bspkrsCore@[${bscore_version},)" ],
     "dependants": [  ],
     "useDependencyInformation": "true"
   }]
